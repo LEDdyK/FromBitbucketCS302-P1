@@ -2,11 +2,13 @@ package PacmanRip;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -28,23 +30,54 @@ public class Main extends Application {
 		//Canvas size: Minimum = 1024x738, Maximum = 1440x900
 		Canvas canvas = new Canvas(1024, 768);
 		root.getChildren().add(canvas);
-		
+
 		//Scene graphics
 		GraphicsContext graphics = canvas.getGraphicsContext2D();
 		Image circle = new Image("circle.png");
 		Player pacman = new Player(1, 512, 384, 1, 0);
 		
+		//Event handler
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent e) {
+				System.out.println(e.getCode().toString());
+				System.out.println(pacman.getXVel());
+				System.out.println(pacman.getYVel());
+				switch(e.getCode().toString()) {
+					case "UP":
+						pacman.setXVel(0);
+						pacman.setYVel(-1);
+						break;
+					case "DOWN":
+						pacman.setXVel(0);
+						pacman.setYVel(1);
+						break;
+					case "LEFT": 
+						pacman.setXVel(-1);
+						pacman.setYVel(0);
+						break;
+					case "RIGHT":
+						pacman.setXVel(1);
+						pacman.setYVel(0);
+						break;
+				}
+			}
+			
+		});
+		
 		//Get system time
 		final long startNanoTime = System.nanoTime();
+		//long newNanoTime = currentNanoTime;
 		
 		//window dynamics
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
-				double t = (currentNanoTime - startNanoTime) / 100000000.0;
 				
 				//update actions
-				pacman.setXPos(pacman.getXVel() * (int)t);
-				pacman.setYPos(pacman.getYVel() * (int)t);
+				pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 1));
+				pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 1));
+				
 				graphics.clearRect(0, 0, 1024, 768);
 				graphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());				
 			}
