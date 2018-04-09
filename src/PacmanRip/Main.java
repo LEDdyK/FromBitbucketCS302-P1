@@ -1,53 +1,56 @@
 package PacmanRip;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-public class Main extends Application implements EventHandler<ActionEvent>{
-	
-	private Pane root;
-	private Character player;
-	private List<Character> enemies = new ArrayList<>();
+public class Main extends Application {
 	
 	public static void main(String[] args) {
-		
 		launch(args);
 	}
-	
+
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage stage) throws Exception {
+		//Display name of window
+		stage.setTitle("Candy Run! (Development Version)");
 		
-//		private Parent createContent() {
-//					
-//			root = new Pane();
-//			//window should be at least 1024x768 and no larger than 1440x900
-//			root.setPrefSize(1024, 768);
-//		}
+		Group root = new Group();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
 		
-		//Stage
-//		primaryStage.setTitle("Candy Run! (Development Mode");
-//		//Scene
-//		primaryStage.setScene(new Scene(createContent()));
-//		primaryStage.show();
+		//Canvas size: Minimum = 1024x738, Maximum = 1440x900
+		Canvas canvas = new Canvas(1024, 768);
+		root.getChildren().add(canvas);
 		
+		//Scene graphics
+		GraphicsContext graphics = canvas.getGraphicsContext2D();
+		Image circle = new Image("circle.png");
+		Player pacman = new Player(1, 512, 384, 1, 0);
+		
+		//Get system time
+		final long startNanoTime = System.nanoTime();
+		
+		//window dynamics
+		new AnimationTimer() {
+			public void handle(long currentNanoTime) {
+				double t = (currentNanoTime - startNanoTime) / 100000000.0;
+				
+				//update actions
+				pacman.setXPos(pacman.getXVel() * (int)t);
+				pacman.setYPos(pacman.getYVel() * (int)t);
+				graphics.clearRect(0, 0, 1024, 768);
+				graphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());				
+			}
+		}.start();
+		
+		//show
+		stage.show();
 	}
-	
-	@Override
-	public void handle(ActionEvent event) {
-		/*if(event.getSource()==button) {
-			System.out.println("Potato");
-		}*/
-		
-	
-	}
-	
 }

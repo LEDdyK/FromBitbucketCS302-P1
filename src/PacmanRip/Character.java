@@ -2,12 +2,12 @@ package PacmanRip;
 
 public abstract class Character {
 	//Character characteristics
-	protected ID id;
+	protected int id;
 	protected int xPos, yPos;
 	protected int xVel, yVel;
 	
 	//Constructor
-	public Character(ID id, int xPos, int yPos, int xVel, int yVel){
+	public Character(int id, int xPos, int yPos, int xVel, int yVel) {
 		this.id = id;
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -16,10 +16,10 @@ public abstract class Character {
 	}
 	
 	//actions per tick
-	public abstract void tick();
+	//public abstract void tick();
 	
 	//getters
-	public ID getID() {
+	public int getID() {
 		return id;
 	}
 	public int getXPos() {
@@ -36,7 +36,7 @@ public abstract class Character {
 	}
 	
 	//setters
-	public void setID(ID id) {
+	public void setID(int id) {
 		this.id = id;
 	}
 	public void setXPos(int xPos) {
