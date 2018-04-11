@@ -2,9 +2,11 @@ package PacmanRip;
 
 public abstract class Character {
 	//Character characteristics
+	//ids: 1 = player1, 2 = player2, 3 = player3, 4 = NPC1, 5 = NPC2, 6 = NPC3, 7 = NPC4
 	protected int id;
 	protected int xPos, yPos;
 	protected int xVel, yVel;
+	protected int ticker;
 	
 	//Constructor
 	public Character(int id, int xPos, int yPos, int xVel, int yVel) {
@@ -34,6 +36,9 @@ public abstract class Character {
 	public int getYVel() {
 		return yVel;
 	}
+	public int getTick() {
+		return ticker;
+	}
 	
 	//setters
 	public void setID(int id) {
@@ -50,6 +55,9 @@ public abstract class Character {
 	}
 	public void setYVel(int yVel) {
 		this.yVel = yVel;
+	}
+	public void setTick(int ticker) {
+		this.ticker = ticker;
 	}
 
 }
