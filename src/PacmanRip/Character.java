@@ -68,5 +68,10 @@ public abstract class Character {
 	public void setTick(int ticker) {
 		this.ticker = ticker;
 	}
+	
+	public void move() {
+		xPos = (xPos + (xVel * velMag));
+		yPos = (yPos + (yVel * velMag));
+	}
 
 }

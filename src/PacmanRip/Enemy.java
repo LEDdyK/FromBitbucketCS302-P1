@@ -44,7 +44,6 @@ public class Enemy extends Character{
 		if (availDir[3]) {
 			nextTileDist[3] = Math.pow((intersectPos[0] + tileDim - target[0]), 2) + Math.pow((intersectPos[1] - target[1]), 2);
 		} else nextTileDist[3] = Math.pow(1024, 2);
-		
 		//find the shortest distance
 		int shortest = 0;
 		for (int i = 1; i < nextTileDist.length; ++i) {
@@ -61,55 +60,46 @@ public class Enemy extends Character{
 		}
 		//set next direction
 		this.nextDir = shortest + 1;
-		System.out.println(nextTileDist[0]);
-		System.out.println(nextTileDist[1]);
-		System.out.println(nextTileDist[2]);
-		System.out.println(nextTileDist[3]);
 	}
 	//call this method before green tile
-	public void setAvailDir(int[][] map) {
+	public void setAvailDir(int[][] map, int tileDim) {
 		if (xVel != 0) {
 			//up
-			if (map[xPos + xVel * 50][yPos - 100] == 0) {
+			if (map[xPos + xVel * tileDim/2][yPos - tileDim] == 0) {
 				availDir[0] = true;
 			} else availDir[0] = false;
 			//down
-			if (map[xPos + xVel * 50][yPos + 100] == 0) {
+			if (map[xPos + xVel * tileDim/2][yPos + tileDim] == 0) {
 				availDir[1] = true;
 			} else availDir[1] = false;
 			//left
-			if ((map[xPos + xVel * 50 - 100][yPos] == 0) && (xVel != 1)) {
+			if ((map[xPos + xVel * tileDim/2 - tileDim][yPos] == 0) && (xVel != 1)) {
 				availDir[2] = true;
 			} else availDir[2] = false;
 			//right
-			if ((map[xPos + xVel * 50 + 100][yPos] == 0) && (xVel != -1)) {
+			if ((map[xPos + xVel * tileDim/2 + tileDim][yPos] == 0) && (xVel != -1)) {
 				availDir[3] = true;
 			} else availDir[3] = false;
-			System.out.println("moving in x direction");
-			System.out.println("up:" + availDir[0] + " down:" + availDir[1] + " left:" + availDir[2] + " right:" + availDir[3]);
 		}
 		else {
 			//up
-			if ((map[xPos][yPos + yVel * 50 - 100] == 0) && (yVel != 1)) {
+			if ((map[xPos][yPos + yVel * tileDim/2 - tileDim] == 0) && (yVel != 1)) {
 				availDir[0] = true;
 			} else availDir[0] = false;
 			//down
-			if ((map[xPos][yPos + yVel * 50 + 100] == 0) && (yVel != -1)) {
+			if ((map[xPos][yPos + yVel * tileDim/2 + tileDim] == 0) && (yVel != -1)) {
 				availDir[1] = true;
 			} else availDir[1] = false;
 			//left
-			if (map[xPos - 100][yPos + yVel * 50] == 0) {
+			if (map[xPos - tileDim][yPos + yVel * tileDim/2] == 0) {
 				availDir[2] = true;
 			} else availDir[2] = false;
 			//right
-			if (map[xPos + 100][yPos + yVel * 50] == 0) {
+			if (map[xPos + tileDim][yPos + yVel * tileDim/2] == 0) {
 				availDir[3] = true;
 			} else availDir[3] = false;
-			System.out.println("moving in y direction");
-			System.out.println("up:" + availDir[0] + " down:" + availDir[1] + " left:" + availDir[2] + " right:" + availDir[3]);
 		}
 	}
-	
 	//call this method at green tile
 	public void changeDir(int nextDir) {
 		switch(nextDir) {
