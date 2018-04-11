@@ -35,8 +35,11 @@ public class Main extends Application {
 		GraphicsContext graphics = canvas.getGraphicsContext2D();
 		Image circle = new Image("circle.png");
 		Image circleE = new Image("circle.png");
-		Player pacman = new Player(1, 512, 384, 1, 0);
-		Enemy blinky = new Enemy(7, 0, 0, 1, 0);
+		
+		Player pacman = new Player(1, 512, 384, 1, 0, 4);
+		Enemy blinky = new Enemy(7, 0, 0, 1, 0, 1);
+		blinky.setMode(2);
+		
 		//Event handler
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -81,8 +84,8 @@ public class Main extends Application {
 				else {
 					pacman.setTick(0);
 					//update actions
-					pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 4));
-					pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 4));
+					pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * pacman.getVelMag()));
+					pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * pacman.getVelMag()));
 					AiController.controlMom(blinky, pacman);
 					
 					graphics.clearRect(0, 0, 1024, 768);
