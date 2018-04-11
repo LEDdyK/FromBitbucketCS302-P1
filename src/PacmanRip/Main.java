@@ -41,9 +41,13 @@ public class Main extends Application {
 		turnTile.setFill(Color.GREEN);
 		root.getChildren().add(turnTile);
 		map[500][100] = 2;
+		Rectangle turnTile2 = new Rectangle(500, 500, 100, 100);
+		turnTile2.setFill(Color.GREEN);
+		root.getChildren().add(turnTile2);
+		map[500][500] = 2;
 		
 		//walls for visual debugging purposes
-		Rectangle[] walls = new Rectangle[8];
+		Rectangle[] walls = new Rectangle[9];
 		walls[1] = new Rectangle(400, 0, 100, 100);//top left
 		walls[1].setFill(Color.RED);
 		map[400][0] = 1;
@@ -58,25 +62,29 @@ public class Main extends Application {
 		map[400][200] = 1;
 		root.getChildren().addAll(walls[1], walls[3], walls[5], walls[7]);
 		//toggle walls
-		walls[2] = new Rectangle(500, 0, 100, 100);//top
-		walls[2].setFill(Color.RED);
+		walls[0] = new Rectangle(500, 0, 100, 100);//top
+		walls[0].setFill(Color.RED);
 		map[500][0] = 1;
-		root.getChildren().add(walls[2]);
-//		walls[4] = new Rectangle(600, 100, 100, 100);//right
-//		walls[4].setFill(Color.RED);
+		root.getChildren().add(walls[0]);
+//		walls[2] = new Rectangle(600, 100, 100, 100);//right
+//		walls[2].setFill(Color.RED);
 //		map[600][100] = 1;
 //		root.getChildren().add(walls[4]);
-//		walls[6] = new Rectangle(500, 200, 100, 100);//bottom
-//		walls[6].setFill(Color.RED);
+//		walls[4] = new Rectangle(500, 200, 100, 100);//bottom
+//		walls[4].setFill(Color.RED);
 //		map[500][200] = 1;
 //		root.getChildren().add(walls[6]);
-//		walls[8] = new Rectangle(400, 100, 100, 100);//left
-//		walls[8].setFill(Color.RED);
+//		walls[6] = new Rectangle(400, 100, 100, 100);//left
+//		walls[6].setFill(Color.RED);
 //		map[400][100] = 1;
 //		root.getChildren().add(walls[8]);
+		walls[8] = new Rectangle(500, 600, 100, 100);//top
+		walls[8].setFill(Color.RED);
+		map[500][600] = 1;
+		root.getChildren().add(walls[8]);
 		
 		Player pacman = new Player(1, 512, 384, 1, 0, 4);
-		Enemy blinky = new Enemy(7, 0, 100, 1, 0, 1);
+		Enemy blinky = new Enemy(7, 0, 100, 1, 0, 5);
 		blinky.setMode(1);
 		
 		//Event handler
@@ -126,10 +134,6 @@ public class Main extends Application {
 					pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * pacman.getVelMag()));
 					pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * pacman.getVelMag()));
 					AiController.controlMom(blinky, pacman, map);
-					System.out.println(blinky.getXPos() + " " + blinky.getYPos());
-//					if (map[blinky.getXPos()][blinky.getYPos()] == 2) {
-//						System.out.println("it works though...");
-//					}
 					
 					graphics.clearRect(0, 0, 1024, 768);
 					graphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());
