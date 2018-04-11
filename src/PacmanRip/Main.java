@@ -34,16 +34,17 @@ public class Main extends Application {
 		//Scene graphics
 		GraphicsContext graphics = canvas.getGraphicsContext2D();
 		Image circle = new Image("circle.png");
+		Image circleE = new Image("circle.png");
 		Player pacman = new Player(1, 512, 384, 1, 0);
-		
+		Enemy blinky = new Enemy(7, 0, 0, 1, 0);
 		//Event handler
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent e) {
-				System.out.println(e.getCode().toString());
-				System.out.println(pacman.getXVel());
-				System.out.println(pacman.getYVel());
+//				System.out.println(e.getCode().toString());
+//				System.out.println(pacman.getXVel());
+//				System.out.println(pacman.getYVel());
 				switch(e.getCode().toString()) {
 					case "UP":
 						pacman.setXVel(0);
@@ -74,12 +75,20 @@ public class Main extends Application {
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
 				
-				//update actions
-				pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 1));
-				pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 1));
-				
-				graphics.clearRect(0, 0, 1024, 768);
-				graphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());				
+				if (pacman.getTick() < 1) {
+					pacman.setTick(pacman.getTick() + 1);
+				}
+				else {
+					pacman.setTick(0);
+					//update actions
+					pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 4));
+					pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 4));
+					AiController.controlMom(blinky, pacman);
+					
+					graphics.clearRect(0, 0, 1024, 768);
+					graphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());
+					graphics.drawImage(circleE, blinky.getXPos(), blinky.getYPos());
+				}
 			}
 		}.start();
 		
