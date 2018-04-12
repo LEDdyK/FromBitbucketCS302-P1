@@ -55,11 +55,15 @@ public class Main extends Application {
 		//Event handler
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
+			
 			@Override
 			public void handle(KeyEvent e) {
 				//System.out.println(e.getCode().toString());
 				//System.out.println(pacman.getXVel());
 				//System.out.println(pacman.getYVel());
+				
+				String direction = e.getCode().toString();
+				
 				switch(e.getCode().toString()) {
 					case "UP":
 				//	if (map[((pacman.getYPos())/40)-1][(pacman.getXPos())/40] == 1){
@@ -86,9 +90,9 @@ public class Main extends Application {
 			
 		});
 		
-		//Get system time
+		/*//Get system time
 		final long startNanoTime = System.nanoTime();
-		//long newNanoTime = currentNanoTime;
+		//long newNanoTime = currentNanoTime;*/
 			
 		//wall dimensions
 		int wallWidth = 50;
@@ -134,14 +138,14 @@ public class Main extends Application {
 				else {
 					pacman.setTick(0);
 					//update actions
-					if (map[((pacman.getYPos())/40)-1][(pacman.getXPos())/40] == 1 /*&& (e.getCode().toString() == "UP")*/){
-						pacman.setYVel(0);}
-					if (map[((pacman.getYPos())/40)+1][(pacman.getXPos())/40] == 1 /*&& (e.getCode().toString() == "DOWN")*/){
-						pacman.setYVel(0);}
-					if (map[(pacman.getYPos())/40][((pacman.getXPos())/40)+1] == 1 /*&& (e.getCode().toString() == "RIGHT")*/){
-						pacman.setYVel(0);}
-					if (map[(pacman.getYPos())/40][((pacman.getXPos())/40)-1] == 1 /*&& (e.getCode().toString() == "LEFT")*/){
-						pacman.setYVel(0);}
+//					if (map[((pacman.getYPos())/40)-1][(pacman.getXPos())/40] == 1 && direction == "UP"){
+//						pacman.setYVel(0);}
+//					if (map[((pacman.getYPos())/40)+1][(pacman.getXPos())/40] == 1 && direction == "DOWN"){
+//						pacman.setYVel(0);}
+//					if (map[(pacman.getYPos())/40][((pacman.getXPos())/40)+1] == 1 && direction == "RIGHT"){
+//						pacman.setXVel(0);}
+//					if (map[(pacman.getYPos())/40][((pacman.getXPos())/40)-1] == 1 && direction == "LEFT"){
+//						pacman.setXVel(0);}
 					
 					pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 4));
 					pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 4));
