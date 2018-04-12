@@ -50,7 +50,7 @@ public class Main extends Application {
 		//Scene graphics
 		GraphicsContext graphics = canvas.getGraphicsContext2D();
 		Image circle = new Image("circle.png");
-		Player pacman = new Player(1, 50, 50, 0, 1);
+		Player pacman = new Player(1, 100, 50, 0, 0);
 		
 		//Event handler
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -61,9 +61,7 @@ public class Main extends Application {
 				//System.out.println(e.getCode().toString());
 				//System.out.println(pacman.getXVel());
 				//System.out.println(pacman.getYVel());
-				
-				String direction = e.getCode().toString();
-				
+							
 				switch(e.getCode().toString()) {
 					case "UP":
 				//	if (map[((pacman.getYPos())/40)-1][(pacman.getXPos())/40] == 1){
@@ -72,18 +70,23 @@ public class Main extends Application {
 					{
 						pacman.setXVel(0);
 						pacman.setYVel(-1);}
+						pacman.Direction = "UP";
+						
 						break;
 					case "DOWN":
 						pacman.setXVel(0);
 						pacman.setYVel(1);
+						pacman.Direction = "DOWN";
 						break;
 					case "LEFT": 
 						pacman.setXVel(-1);
 						pacman.setYVel(0);
+						pacman.Direction = "LEFT";
 						break;
 					case "RIGHT":
 						pacman.setXVel(1);
 						pacman.setYVel(0);
+						pacman.Direction = "RIGHT";
 						break;
 				}
 			}
@@ -138,14 +141,15 @@ public class Main extends Application {
 				else {
 					pacman.setTick(0);
 					//update actions
-//					if (map[((pacman.getYPos())/40)-1][(pacman.getXPos())/40] == 1 && direction == "UP"){
-//						pacman.setYVel(0);}
-//					if (map[((pacman.getYPos())/40)+1][(pacman.getXPos())/40] == 1 && direction == "DOWN"){
-//						pacman.setYVel(0);}
-//					if (map[(pacman.getYPos())/40][((pacman.getXPos())/40)+1] == 1 && direction == "RIGHT"){
-//						pacman.setXVel(0);}
-//					if (map[(pacman.getYPos())/40][((pacman.getXPos())/40)-1] == 1 && direction == "LEFT"){
-//						pacman.setXVel(0);}
+					if (map[((pacman.getYPos()/*-25*/)/40)-1][(pacman.getXPos())/40] == 1 && pacman.Direction == "UP"){
+						pacman.setYVel(0);}
+					System.out.println(pacman.getYPos());
+					if (map[((pacman.getYPos()/*+25*/)/40)+1][(pacman.getXPos())/40] == 1 && pacman.Direction == "DOWN"){
+						pacman.setYVel(0);}
+					if (map[(pacman.getYPos())/40][((pacman.getXPos()/*-25*/)/40)+1] == 1 && pacman.Direction == "RIGHT"){
+						pacman.setXVel(0);}
+					if (map[(pacman.getYPos())/40][((pacman.getXPos()/*+25*/)/40)-1] == 1 && pacman.Direction == "LEFT"){
+						pacman.setXVel(0);}
 					
 					pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 4));
 					pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 4));
