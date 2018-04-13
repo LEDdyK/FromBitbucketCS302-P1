@@ -9,9 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -25,52 +23,34 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		
 		//Screen dimensions
-		Environment.screenWidth = 1024;
-		Environment.screenHeight = 768;
+		Environment.setScreenWidth(1024);
+		Environment.setScreenHeight(768);
+		
 		//Display name of window
 		stage.setTitle("Candy Run! (Development Version)");
 		
+		//make screens
+		Scene[] screens = new Scene[6];
 		//welcome screen setting up (0)
-		Group welcome = new Group();
-		Scene welScene = new Scene(welcome, Environment.screenWidth, Environment.screenHeight, Color.CADETBLUE);
-		String[] optionNames = new String[] {"Play!", "Achievements", "Store", "Settings"};
-		Environment.makeMenuOptions(optionNames, 100, 400, 30, Color.AZURE, Color.BLACK, 5);
-		for (int i = 0; i < optionNames.length; ++i) {
-			welcome.getChildren().add(Environment.options[i]);
-			//add button placeholder text
-			welcome.getChildren().add(Environment.text[i]);
-		}
-		
-		//gameplay screen setting up (1)
+		screens[0] = new Scene(Environment.makeWelcome(), Environment.getScreenWidth(), Environment.getScreenHeight(), Color.CADETBLUE);
+		//game mode select screen setting up (1)
+		screens[1] = new Scene(Environment.makeMode(), Environment.getScreenWidth(), Environment.getScreenHeight());		
+		//achievements screen setting up (2)
+		screens[2] = new Scene(Environment.makeAchievements(), Environment.getScreenWidth(), Environment.getScreenHeight());
+		//store screen setting up (3)
+		screens[3] = new Scene(Environment.makeStore(), Environment.getScreenWidth(), Environment.getScreenHeight());
+		//settings screen setting up (4)
+		screens[4] = new Scene(Environment.makeSettings(), Environment.getScreenWidth(), Environment.getScreenHeight());		
+		//gameplay screen setting up (5)
 		Group gameplay = new Group();
-		Scene gameScene = new Scene(gameplay, Environment.screenWidth, Environment.screenHeight);
-		Canvas gameCanvas = new Canvas(Environment.screenWidth, Environment.screenHeight);
+		Canvas gameCanvas = new Canvas(Environment.getScreenWidth(), Environment.getScreenHeight());
 		gameplay.getChildren().add(gameCanvas);
 		GraphicsContext gameGraphics = gameCanvas.getGraphicsContext2D();
-		
-		//achievements screen setting up (2)
-		Group achievements = new Group();
-		Scene achScene = new Scene(achievements, Environment.screenWidth, Environment.screenHeight);
-		Text achText = new Text(20, 20, "Achievements Page (Under development): press any key to return...");
-		achievements.getChildren().add(achText);
-		
-		//store screen setting up (3)
-		Group store = new Group();
-		Scene storeScene = new Scene(store, Environment.screenWidth, Environment.screenHeight);
-		Text storeText = new Text(20, 20, "Store Page (Under development): press any key to return...");
-		store.getChildren().add(storeText);
-		
-		//settings screen setting up (4)
-		Group settings = new Group();
-		Scene settingsScene = new Scene(settings, Environment.screenWidth, Environment.screenHeight);
-		Text settingsText = new Text(20, 20, "Settings Page (Under development): press any key to return...");
-		settings.getChildren().add(settingsText);
+		screens[5] = new Scene(gameplay, Environment.getScreenWidth(), Environment.getScreenHeight());
 		
 		//default start screen: welcome screen
-		stage.setScene(welScene);
-		Environment.state = 0;
-		Environment.welOptionHover = 1;
-		Environment.options[Environment.welOptionHover - 1].setFill(Color.PINK);
+		Environment.setDefault();
+		stage.setScene(screens[0]);
 		
 		//game objects
 		int[][] map = new int[1024][768];
@@ -79,67 +59,78 @@ public class Main extends Application {
 		//game character constructors (ID, xPos, yPos, xVel, yVel, velMag)
 		Player pacman = new Player(1, 512, 384, 1, 0, 4);
 		Image circle = new Image("circle.png");
-		Enemy blinky = new Enemy(7, 0, 100, 1, 0, 10);
+		Enemy blinky = new Enemy(7, 0, 100, 1, 0, 0);
 		Image circleE = new Image("circle.png");
 		//set enemy AI mode
 		blinky.setMode(1);
 		
 		//actions upon key press on welcome screen
-		welScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		screens[0].setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent e) {
 				switch(e.getCode().toString()) {
 					case "ENTER":
-						Environment.options[Environment.welOptionHover - 1].setFill(Color.AZURE);
-						switch(Environment.welOptionHover) {
-							case 1:
-								System.out.println("Going to game screen...");
-								stage.setScene(gameScene);
-								Environment.state = 1;
-								break;
-							case 2:
-								System.out.println("Going to achievements screen...");
-								stage.setScene(achScene);
-								Environment.state = 2;
-								break;
-							case 3:
-								System.out.println("Going to store screen...");
-								stage.setScene(storeScene);
-								Environment.state = 3;
-								break;
-							case 4:
-								System.out.println("Going to settings screen...");
-								stage.setScene(settingsScene);
-								Environment.state = 4;
-								break;
-						}
+						stage.setScene(screens[Environment.switchScreen()]);
 						break;
 					case "UP":
-						Environment.options[Environment.welOptionHover - 1].setFill(Color.AZURE);
-						if (Environment.welOptionHover == 1) {
-							Environment.welOptionHover = 4;
-						}
-						else {
-							--Environment.welOptionHover;
-						}
-						Environment.options[Environment.welOptionHover - 1].setFill(Color.PINK);
+						Environment.highlightUp(Environment.getWelOptions());
 						break;
 					case "DOWN":
-						Environment.options[Environment.welOptionHover - 1].setFill(Color.AZURE);
-						if (Environment.welOptionHover == 4) {
-							Environment.welOptionHover = 1;
-						}
-						else {
-							++Environment.welOptionHover;
-						}
-						Environment.options[Environment.welOptionHover - 1].setFill(Color.PINK);
+						Environment.highlightDown(Environment.getWelOptions());
+						break;
+					case "ESCAPE":
+						stage.close();
 						break;
 				}
 			}
 		});
+		//actions upon key press on game mode select screen
+		screens[1].setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent e) {
+				switch(e.getCode().toString()) {
+					case "ENTER":
+						stage.setScene(screens[Environment.switchGame()]);
+						break;
+					case "UP":
+						Environment.highlightUp(Environment.getModeOptions());
+						break;
+					case "DOWN":
+						Environment.highlightDown(Environment.getModeOptions());
+						break;
+					case "ESCAPE":
+						stage.close();
+						break;
+				}
+			}
+		});
+		//actions upon key press on achievements screen
+		screens[2].setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent e) {
+				Environment.setDefault();
+				stage.setScene(screens[0]);
+			}
+		});
+		//actions upon key press on store screen
+		screens[3].setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent e) {
+				Environment.setDefault();
+				stage.setScene(screens[0]);
+			}
+		});
+		//actions upon key press on settings screen
+		screens[4].setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent e) {
+				Environment.setDefault();
+				stage.setScene(screens[0]);
+			}
+		});
 		
 		//actions upon key press on gameplay screen
-		gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		screens[5].setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent e) {
 				switch(e.getCode().toString()) {
@@ -159,51 +150,60 @@ public class Main extends Application {
 						pacman.setXVel(1);
 						pacman.setYVel(0);
 						break;
+					case "W":
+						pacman.setXVel(0);
+						pacman.setYVel(-1);
+						break;
+					case "S":
+						pacman.setXVel(0);
+						pacman.setYVel(1);
+						break;
+					case "A": 
+						pacman.setXVel(-1);
+						pacman.setYVel(0);
+						break;
+					case "D":
+						pacman.setXVel(1);
+						pacman.setYVel(0);
+						break;
+					case "I":
+						pacman.setXVel(0);
+						pacman.setYVel(-1);
+						break;
+					case "K":
+						pacman.setXVel(0);
+						pacman.setYVel(1);
+						break;
+					case "J": 
+						pacman.setXVel(-1);
+						pacman.setYVel(0);
+						break;
+					case "L":
+						pacman.setXVel(1);
+						pacman.setYVel(0);
+						break;
+					case "ESCAPE":
+						Environment.setDefault();
+						stage.setScene(screens[0]);
+						break;
 				}
 			}
 			
 		});
 		
-		//actions upon key press on achievements screen
-		achScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent e) {
-				System.out.println("Returning to welcome screen...");
-				stage.setScene(welScene);
-				Environment.state = 0;
-				Environment.welOptionHover = 1;
-				Environment.options[Environment.welOptionHover - 1].setFill(Color.PINK);
-			}
-		});
-		
-		//actions upon key press on store screen
-		storeScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent e) {
-				System.out.println("Returning to welcome screen...");
-				stage.setScene(welScene);
-				Environment.state = 0;
-				Environment.welOptionHover = 1;
-				Environment.options[Environment.welOptionHover - 1].setFill(Color.PINK);
-			}
-		});
-		
-		//actions upon key press on settings screen
-		settingsScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent e) {
-				System.out.println("Returning to welcome screen...");
-				stage.setScene(welScene);
-				Environment.state = 0;
-				Environment.welOptionHover = 1;
-				Environment.options[Environment.welOptionHover - 1].setFill(Color.PINK);
-			}
-		});
+		Environment.timer = 0;
+		Environment.frameCount = 0;
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
-				if (Environment.state == 1) {
+				if (Environment.getState() == 5) {
+					if (Environment.frameCount == 60) {
+						Environment.frameCount = 0;
+						++Environment.timer;
+						System.out.println(Environment.timer);
+					}
+					++Environment.frameCount;
 					pacman.move();
 					AiController.controlEnemy(blinky, pacman, map, 100, targetX, targetY);
 					
