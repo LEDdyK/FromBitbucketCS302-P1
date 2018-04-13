@@ -22,20 +22,44 @@ public class Main extends Application {
 	}
 
 	//map Array
-			int[][] map = new int[][]{
-				  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				  { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				  { 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1},
-				  { 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
-				  { 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-				  { 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1},
-				  { 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
-				  { 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1},
-				  { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-				};
+	int[][] map = new int[][]{
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 2, 1},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{1, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 2, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 2, 0, 2, 1},
+		{1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1},
+		{1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1},
+		{1, 2, 0, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+	};
+	int mapScale = 22;
+	
 	@Override
 	public void start(Stage stage) throws Exception {
+		
 		//Display name of window
 		stage.setTitle("Candy Run! (Development Version)");
 		
@@ -50,56 +74,38 @@ public class Main extends Application {
 		//Scene graphics
 		GraphicsContext graphics = canvas.getGraphicsContext2D();
 		Image circle = new Image("circle.png");
-		Player pacman = new Player(1, 100, 50, 0, 0);
+		Player pacman = new Player(1, mapScale, mapScale, 0, 0);
+		pacman.setXTile(1);
+		pacman.setYTile(1);
+		pacman.Direction = "RIGHT";
 		
 		//Event handler
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			
 			@Override
-			public void handle(KeyEvent e) {
-				//System.out.println(e.getCode().toString());
-				//System.out.println(pacman.getXVel());
-				//System.out.println(pacman.getYVel());
-							
+			public void handle(KeyEvent e) {							
 				switch(e.getCode().toString()) {
 					case "UP":
-				//	if (map[((pacman.getYPos())/40)-1][(pacman.getXPos())/40] == 1){
-					//	pacman.setXVel(0);
-						//pacman.setYVel(0);}
-					{
-						pacman.setXVel(0);
-						pacman.setYVel(-1);}
 						pacman.Direction = "UP";
-						
 						break;
 					case "DOWN":
-						pacman.setXVel(0);
-						pacman.setYVel(1);
 						pacman.Direction = "DOWN";
 						break;
 					case "LEFT": 
-						pacman.setXVel(-1);
-						pacman.setYVel(0);
 						pacman.Direction = "LEFT";
 						break;
 					case "RIGHT":
-						pacman.setXVel(1);
-						pacman.setYVel(0);
 						pacman.Direction = "RIGHT";
 						break;
 				}
 			}
 			
 		});
-		
-		/*//Get system time
-		final long startNanoTime = System.nanoTime();
-		//long newNanoTime = currentNanoTime;*/
 			
 		//wall dimensions
-		int wallWidth = 50;
-		int wallHeight = 50;
+		int wallWidth = mapScale;
+		int wallHeight = mapScale;
 		
 		//wall position
 		int wallXPos = 0;
@@ -114,52 +120,86 @@ public class Main extends Application {
 	            if (map[i][j] == 1) {
 	            	wallXPos = j*wallWidth;
 	            	wallYPos = i*wallHeight;
-	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, 50, 50);//Creates walls
+	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);//Creates walls
 	            	root.getChildren().addAll(wall);
 	            }
 	            else if (map[i][j] == 0) {
 	            	foodXPos = j*wallWidth;
 	            	foodYPos = i*wallHeight;
-	            	Rectangle food = new Rectangle(foodXPos+12.5, foodYPos+12.5, 25, 25);//Creates food
+	            	Rectangle food = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);//Creates food
 	            	food.setFill(Color.BLUE);
 	            	root.getChildren().addAll(food);
 	            }
 	        }
-	    
-		
-		
-	}
+		}
 		
 		
 		//window dynamics
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
+				if (pacman.getXVel() == -1) {
+					pacman.setXTile((int)Math.ceil((double)pacman.getXPos()/mapScale));
+				}
+				if (pacman.getXVel() == 1) {
+					pacman.setXTile(pacman.getXPos()/mapScale);
+				}
+				if (pacman.getYVel() == -1) {
+					pacman.setYTile((int)Math.ceil((double)pacman.getYPos()/mapScale));
+				}
+				if (pacman.getYVel() == 1) {
+					pacman.setYTile(pacman.getYPos()/mapScale);
+				}
 				
-				if (pacman.getTick() < 10) {
-					pacman.setTick(pacman.getTick() + 1);
+				if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
+					switch(pacman.Direction) {
+						case "UP":
+							if (map[pacman.getYTile() - 1][pacman.getXTile()] == 1) {
+								pacman.setXVel(0);
+								pacman.setYVel(0);
+							}
+							else {
+								pacman.setXVel(0);
+								pacman.setYVel(-1);
+							}
+							break;
+						case "DOWN":
+							if (map[pacman.getYTile() + 1][pacman.getXTile()] == 1) {
+								pacman.setXVel(0);
+								pacman.setYVel(0);
+							}
+							else {
+								pacman.setXVel(0);
+								pacman.setYVel(1);
+							}							
+							break;
+						case "LEFT":
+							if (map[pacman.getYTile()][pacman.getXTile() - 1] == 1) {
+								pacman.setXVel(0);
+								pacman.setYVel(0);
+							}
+							else {
+								pacman.setXVel(-1);
+								pacman.setYVel(0);								
+							}
+							break;
+						case "RIGHT":
+							if (map[pacman.getYTile()][pacman.getXTile() + 1] == 1) {
+								pacman.setXVel(0);
+								pacman.setYVel(0);
+							}
+							else {
+								pacman.setXVel(1);
+								pacman.setYVel(0);
+							}
+							break;
+					}
 				}
-				else {
-					pacman.setTick(0);
-					//update actions
-					if (map[((pacman.getYPos()/*-25*/)/40)-1][(pacman.getXPos())/40] == 1 && pacman.Direction == "UP"){
-						pacman.setYVel(0);}
-					System.out.println(pacman.getYPos());
-					if (map[((pacman.getYPos()/*+25*/)/40)+1][(pacman.getXPos())/40] == 1 && pacman.Direction == "DOWN"){
-						pacman.setYVel(0);}
-					if (map[(pacman.getYPos())/40][((pacman.getXPos()/*-25*/)/40)+1] == 1 && pacman.Direction == "RIGHT"){
-						pacman.setXVel(0);}
-					if (map[(pacman.getYPos())/40][((pacman.getXPos()/*+25*/)/40)-1] == 1 && pacman.Direction == "LEFT"){
-						pacman.setXVel(0);}
-					
-					pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 4));
-					pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 4));
-					
-					graphics.clearRect(0, 0, 1024, 768);
-					graphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());
-					
-
-					
-				}
+				
+				pacman.setXPos(pacman.getXPos() + (pacman.getXVel() * 1));
+				pacman.setYPos(pacman.getYPos() + (pacman.getYVel() * 1));
+				
+				graphics.clearRect(0, 0, 1024, 768);
+				graphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());
 			}
 		}.start();
 		
