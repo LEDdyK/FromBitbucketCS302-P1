@@ -139,15 +139,27 @@ public class Main extends Application {
 			public void handle(long currentNanoTime) {
 				if (pacman.getXVel() == -1) {
 					pacman.setXTile((int)Math.ceil((double)pacman.getXPos()/mapScale));
+					if (pacman.Direction == "RIGHT") {
+						pacman.setXVel(1);
+					}
 				}
 				if (pacman.getXVel() == 1) {
 					pacman.setXTile(pacman.getXPos()/mapScale);
+					if (pacman.Direction == "LEFT") {
+						pacman.setXVel(-1);
+					}
 				}
 				if (pacman.getYVel() == -1) {
 					pacman.setYTile((int)Math.ceil((double)pacman.getYPos()/mapScale));
+					if (pacman.Direction == "DOWN") {
+						pacman.setYVel(1);
+					}
 				}
 				if (pacman.getYVel() == 1) {
 					pacman.setYTile(pacman.getYPos()/mapScale);
+					if (pacman.Direction == "UP") {
+						pacman.setYVel(-1);
+					}
 				}
 				
 				if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
