@@ -162,7 +162,7 @@ public class Main extends Application {
 					}
 				}
 				
-				if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
+				if ((map[pacman.getYTile()][pacman.getXTile()] == 2) && (pacman.getXPos()%mapScale == 0) && (pacman.getYPos()%mapScale == 0)) {
 					switch(pacman.Direction) {
 						case "UP":
 							if (map[pacman.getYTile() - 1][pacman.getXTile()] == 1) {
