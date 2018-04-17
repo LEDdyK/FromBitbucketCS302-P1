@@ -364,10 +364,24 @@ public class Main extends Application {
 						}
 						//warping player
 						else if ((pacman.getXTile() == 0) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
-							pacman.setXPos(571);
+							pacman.setXPos(572);
+							Player.incrementScore();
+							setMapValue(pacman.getYTile(),pacman.getXTile(),6);
+							int dfoodXPos = pacman.getXTile()*wallWidth + leftOffset;
+			            	int dfoodYPos = pacman.getYTile()*wallHeight + topOffset;
+			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
+			            	dfood.setFill(Color.WHITE);
+			            	gameplay.getChildren().add(dfood);
 						}						
 						else if ((pacman.getXTile() == 26) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
-							pacman.setXPos(1);							
+							pacman.setXPos(1);		
+							Player.incrementScore();
+							setMapValue(pacman.getYTile(),pacman.getXTile(),6);
+							int dfoodXPos = pacman.getXTile()*wallWidth + leftOffset;
+			            	int dfoodYPos = pacman.getYTile()*wallHeight + topOffset;
+			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
+			            	dfood.setFill(Color.WHITE);
+			            	gameplay.getChildren().add(dfood);
 						}
 												
 						pacman.move();
