@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 public class Environment {
 	private static int screenWidth;
 	private static int screenHeight;
-	//0 = Welcome, 1 = Gameplay, 2 = Achievements, 3 = Store, 4 = Settings
+	//0 = Welcome, 1 = Gameplay, 2 = Achievements, 3 = Store, 4 = Settings, 6 = Pause, 7 = exit
 	private static int state;
 	private static int optionHover;
 	//button placeholder text
@@ -21,6 +21,14 @@ public class Environment {
 	private static Rectangle[] modeOptions;
 	//button placeholder text
 	private static Text[] modeText;
+	//pauseScreen rectangle
+	private static Rectangle pScreenRect;
+	//pause screen text
+	private static Text pScreenText;
+	//pauseScreen rectangle
+	private static Rectangle eScreenRect;
+	//pause screen text
+	private static Text eScreenText;
 	
 	//temporary placement of player count
 	public static int playerCount;
@@ -28,6 +36,18 @@ public class Environment {
 	public static int frameCount;
 	
 	//getters
+	public static Rectangle getpScreenRect() {
+		return pScreenRect;
+	}
+	public static Text getpScreenText() {
+		return pScreenText;
+	}
+	public static Rectangle geteScreenRect() {
+		return eScreenRect;
+	}
+	public static Text geteScreenText() {
+		return eScreenText;
+	}
 	public static int getScreenWidth() {
 		return screenWidth;
 	}
@@ -54,6 +74,25 @@ public class Environment {
 	public static void setScreenHeight(int pixels) {
 		screenHeight = pixels;
 	}
+	public static void setState(int S) {
+		state = S;
+	}
+	
+	//Pause Screen / needs to be fine tuned
+	public static void makePRect() {
+		pScreenRect = new Rectangle((Environment.getScreenWidth()/2)-200, (Environment.getScreenHeight()/2)-50, 400, 100);
+		pScreenRect.setFill(Color.rgb(0,191,255, 0.4));
+		pScreenText = new Text((Environment.getScreenWidth()/2)-50, (Environment.getScreenHeight()/2)-25, "PAUSED");
+	}
+	
+	//Exit prompt / needs to be fine tuned
+	public static void makeERect() {
+		eScreenRect = new Rectangle((Environment.getScreenWidth()/2)-200, (Environment.getScreenHeight()/2)-100, 400, 200);
+		eScreenRect.setFill(Color.rgb(0,191,255, 0.4));
+		eScreenText = new Text((Environment.getScreenWidth()/2), (Environment.getScreenHeight()/2)-50, "Do you want to Exit?");
+		
+	}
+	
 	
 	//make menu options
 	public static Rectangle[] makeOptions(String[] names, int width, int height, int space, Color fill, Color stroke, int border) {
@@ -90,10 +129,12 @@ public class Environment {
 	}
 	
 	//achievements screen setting up (2)
+	
+	
 	public static Group makeAchievements() {
 		Group achievements = new Group();
-		Text achText = new Text(20, 20, "Achievements Page (Under development): press any key to return...");
-		achievements.getChildren().add(achText);
+		Text achievementsText = new Text(20, 20, "Achievements Page (Under development): press any key to return...");
+		achievements.getChildren().add(achievementsText);
 		return achievements;
 	}
 	

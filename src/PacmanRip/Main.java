@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -30,8 +31,8 @@ public class Main extends Application {
 		stage.setTitle("Candy Run! (Development Version)");
 		
 		//make screens
-		Scene[] screens = new Scene[6];
-		//welcome screen setting up (0)
+		Scene[] screens = new Scene[7];
+		//welcome screen setting up (0)	
 		screens[0] = new Scene(Environment.makeWelcome(), Environment.getScreenWidth(), Environment.getScreenHeight(), Color.CADETBLUE);
 		//game mode select screen setting up (1)
 		screens[1] = new Scene(Environment.makeMode(), Environment.getScreenWidth(), Environment.getScreenHeight());		
@@ -47,6 +48,9 @@ public class Main extends Application {
 		gameplay.getChildren().add(gameCanvas);
 		GraphicsContext gameGraphics = gameCanvas.getGraphicsContext2D();
 		screens[5] = new Scene(gameplay, Environment.getScreenWidth(), Environment.getScreenHeight());
+		Environment.makePRect();
+		Environment.makeERect();
+		
 		
 		//default start screen: welcome screen
 		Environment.setDefault();
@@ -129,6 +133,7 @@ public class Main extends Application {
 			}
 		});
 		
+		
 		//actions upon key press on gameplay screen
 		screens[5].setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -183,12 +188,37 @@ public class Main extends Application {
 						pacman.setYVel(0);
 						break;
 					case "ESCAPE":
-						Environment.setDefault();
-						stage.setScene(screens[0]);
+						if (Environment.getState() == 5) {
+							Environment.setState(7);
+							gameplay.getChildren().addAll(Environment.geteScreenRect(),Environment.geteScreenText());
+						/*	switch(e.getCode().toString()) {
+							case "RIGHT":
+								
+								Break;
+							case "LEFT":
+								
+								
+								Break;
+							case "ENTER':
+								
+								Break;
+						}*/
+						}
+						else if(Environment.getState() == 7) {Environment.setState(5);							
+						gameplay.getChildren().removeAll(Environment.geteScreenRect(),Environment.geteScreenText() );
+						}
+						break;
+					case "P":
+						if (Environment.getState() == 5) {
+							Environment.setState(6);
+							gameplay.getChildren().addAll(Environment.getpScreenRect(),Environment.getpScreenText());
+						}
+						else if (Environment.getState() == 6){Environment.setState(5);		
+						gameplay.getChildren().removeAll(Environment.getpScreenRect(),Environment.getpScreenText() );
+						}
 						break;
 				}
 			}
-			
 		});
 		
 		Environment.timer = 0;
@@ -203,6 +233,7 @@ public class Main extends Application {
 						++Environment.timer;
 						System.out.println(Environment.timer);
 					}
+					
 					++Environment.frameCount;
 					pacman.move();
 					AiController.controlEnemy(blinky, pacman, map, 100, targetX, targetY);
