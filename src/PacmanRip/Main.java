@@ -9,11 +9,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -65,10 +62,13 @@ public class Main extends Application {
 		Environment.setScreenHeight(768);
 		//Display name of window
 		stage.setTitle("Candy Run! (Development Version)");
+		//Game Section Offset
+		int topOffset = Environment.getScreenHeight() - (map.length * mapScale);
+		int leftOffset = (Environment.getScreenWidth() - (map[0].length * mapScale))/2;
 		
 		//make screens
-		Scene[] screens = new Scene[6];
-		//welcome screen setting up (0)
+		Scene[] screens = new Scene[7];
+		//welcome screen setting up (0)	
 		screens[0] = new Scene(Environment.makeWelcome(), Environment.getScreenWidth(), Environment.getScreenHeight(), Color.CADETBLUE);
 		//game mode select screen setting up (1)
 		screens[1] = new Scene(Environment.makeMode(), Environment.getScreenWidth(), Environment.getScreenHeight());		
@@ -84,6 +84,9 @@ public class Main extends Application {
 		gameplay.getChildren().add(gameCanvas);
 		GraphicsContext gameGraphics = gameCanvas.getGraphicsContext2D();
 		screens[5] = new Scene(gameplay, Environment.getScreenWidth(), Environment.getScreenHeight());
+		Environment.makePRect();
+		Environment.makeERect();
+		
 		
 		//default start screen: welcome screen
 		Environment.setDefault();
@@ -96,7 +99,7 @@ public class Main extends Application {
 		pacman.setYTile(1);
 		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
-		Enemy blinky = new Enemy(7, mapScale * 2, mapScale, 1, 0, 1);
+		Enemy blinky = new Enemy(7, mapScale, mapScale, 1, 0, 1);
 		Image circleE = new Image("circle.png");
 		//set enemy AI mode
 		blinky.setMode(1);
@@ -166,30 +169,78 @@ public class Main extends Application {
 			}
 		});
 		
+		
 		//actions upon key press on gameplay screen
 		screens[5].setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent e) {
 				switch(e.getCode().toString()) {
 					case "UP":
-						pacman.Direction = "UP";
+						if (Environment.getState() == 5) {
+							pacman.Direction = "UP";
+						}
 						break;
 					case "DOWN":
-						pacman.Direction = "DOWN";
+						if (Environment.getState() == 5) {
+							pacman.Direction = "DOWN";
+						}
 						break;
-					case "LEFT": 
-						pacman.Direction = "LEFT";
+					case "LEFT":
+						if (Environment.getState() == 5) {
+							pacman.Direction = "LEFT";
+						}
+						else if (Environment.getState() == 7) {
+							Environment.escToggle();
+						}
 						break;
 					case "RIGHT":
-						pacman.Direction = "RIGHT";
+						if (Environment.getState() == 5) {
+							pacman.Direction = "RIGHT";
+						}
+						else if (Environment.getState() == 7) {
+							Environment.escToggle();
+						}
+						break;
+					case "P":
+						if (Environment.getState() == 5) {
+							Environment.setState(6);
+							gameplay.getChildren().addAll(Environment.getpScreenRect(),Environment.getpScreenText());
+						}
+						else if (Environment.getState() == 6) {
+							Environment.setState(5);		
+							gameplay.getChildren().removeAll(Environment.getpScreenRect(),Environment.getpScreenText() );
+						}
 						break;
 					case "ESCAPE":
-						Environment.setDefault();
-						stage.setScene(screens[0]);
+						if (Environment.getState() == 5) {
+							Environment.setState(7);
+							gameplay.getChildren().addAll(Environment.geteScreenRect(0),Environment.geteScreenText(0));
+							gameplay.getChildren().addAll(Environment.geteScreenRect(1),Environment.geteScreenText(1));
+							gameplay.getChildren().addAll(Environment.geteScreenRect(2),Environment.geteScreenText(2));
+						}
+						else if (Environment.getState() == 7) {
+							Environment.setEscToggle(false);
+							Environment.setState(5);
+							gameplay.getChildren().removeAll(Environment.geteScreenRect(0),Environment.geteScreenText(0));
+							gameplay.getChildren().removeAll(Environment.geteScreenRect(1),Environment.geteScreenText(1));
+							gameplay.getChildren().removeAll(Environment.geteScreenRect(2),Environment.geteScreenText(2));
+						}
+						break;
+					case "ENTER":
+						if (Environment.getState() == 7) {
+							if (Environment.getEscToggle()) {
+								stage.close();
+							}
+							else {
+								Environment.setState(5);
+								gameplay.getChildren().removeAll(Environment.geteScreenRect(0),Environment.geteScreenText(0));
+								gameplay.getChildren().removeAll(Environment.geteScreenRect(1),Environment.geteScreenText(1));
+								gameplay.getChildren().removeAll(Environment.geteScreenRect(2),Environment.geteScreenText(2));
+							}
+						}
 						break;
 				}
 			}
-			
 		});
 			
 		//wall dimensions
@@ -205,14 +256,14 @@ public class Main extends Application {
 		for(int i=0; i<map.length; i++) {
 	        for(int j=0; j<map[i].length; j++) {
 	            if (map[i][j] == 1) {
-	            	wallXPos = j*wallWidth;
-	            	wallYPos = i*wallHeight;
+	            	wallXPos = j*wallWidth + leftOffset;
+	            	wallYPos = i*wallHeight + topOffset;
 	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);//Creates walls
 	            	gameplay.getChildren().add(wall);
 	            }
 	            else if ((map[i][j] == 0) || (map[i][j] == 2)) {
-	            	foodXPos = j*wallWidth;
-	            	foodYPos = i*wallHeight;
+	            	foodXPos = j*wallWidth + leftOffset;
+	            	foodYPos = i*wallHeight + topOffset;
 	            	Rectangle food = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);//Creates food
 	            	food.setFill(Color.BLUE);
 	            	gameplay.getChildren().add(food);
@@ -231,8 +282,9 @@ public class Main extends Application {
 					if (Environment.frameCount == 60) {
 						Environment.frameCount = 0;
 						++Environment.timer;
-//						System.out.println(Environment.timer);
+						System.out.println(Environment.timer);
 					}
+					
 					++Environment.frameCount;
 					
 					//player control logic
@@ -247,8 +299,8 @@ public class Main extends Application {
 					
 					//update visuals
 					gameGraphics.clearRect(0, 0, 1024, 768);
-					gameGraphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());
-					gameGraphics.drawImage(circleE, blinky.getXPos(), blinky.getYPos());
+					gameGraphics.drawImage(circle, pacman.getXPos() + leftOffset, pacman.getYPos() + topOffset);
+					gameGraphics.drawImage(circleE, blinky.getXPos() + leftOffset, blinky.getYPos() + topOffset);
 				}
 			}
 		}.start();

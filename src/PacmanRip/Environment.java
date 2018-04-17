@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 public class Environment {
 	private static int screenWidth;
 	private static int screenHeight;
-	//0 = Welcome, 1 = Gameplay, 2 = Achievements, 3 = Store, 4 = Settings
+	//0 = Welcome, 1 = Gameplay, 2 = Achievements, 3 = Store, 4 = Settings, 6 = Pause, 7 = exit
 	private static int state;
 	private static int optionHover;
 	//button placeholder text
@@ -21,6 +21,16 @@ public class Environment {
 	private static Rectangle[] modeOptions;
 	//button placeholder text
 	private static Text[] modeText;
+	//pause rectangle
+	private static Rectangle pScreenRect;
+	//pause text
+	private static Text pScreenText;
+	//escape rectangles
+	private static Rectangle[] eScreenRect;
+	//escape text
+	private static Text[] eScreenText;
+	//escape prompt toggle
+	private static boolean escToggle;
 	
 	//temporary placement of player count
 	public static int playerCount;
@@ -28,6 +38,18 @@ public class Environment {
 	public static int frameCount;
 	
 	//getters
+	public static Rectangle getpScreenRect() {
+		return pScreenRect;
+	}
+	public static Text getpScreenText() {
+		return pScreenText;
+	}
+	public static Rectangle geteScreenRect(int i) {
+		return eScreenRect[i];
+	}
+	public static Text geteScreenText(int i) {
+		return eScreenText[i];
+	}
 	public static int getScreenWidth() {
 		return screenWidth;
 	}
@@ -46,6 +68,9 @@ public class Environment {
 	public static Rectangle[] getModeOptions() {
 		return modeOptions;
 	}
+	public static boolean getEscToggle() {
+		return escToggle;
+	}
 	
 	//setters
 	public static void setScreenWidth(int pixels) {
@@ -53,6 +78,48 @@ public class Environment {
 	}
 	public static void setScreenHeight(int pixels) {
 		screenHeight = pixels;
+	}
+	public static void setState(int S) {
+		state = S;
+	}
+	public static void setEscToggle(boolean T) {
+		escToggle = T;
+		eScreenRect[1].setFill(Color.AZURE);
+		eScreenRect[2].setFill(Color.GREEN);
+	}
+	
+	//Pause Screen
+	public static void makePRect() {
+		pScreenRect = new Rectangle((Environment.getScreenWidth()/2)-200, (Environment.getScreenHeight()/2)-50, 400, 100);
+		pScreenRect.setFill(Color.rgb(0,191,255, 0.4));
+		pScreenText = new Text((Environment.getScreenWidth()/2)-50, (Environment.getScreenHeight()/2)-25, "PAUSED");
+	}
+	
+	//Exit prompt
+	public static void makeERect() {
+		escToggle = false;
+		eScreenRect = new Rectangle[3];
+		eScreenText = new Text[3];
+		eScreenRect[0] = new Rectangle(screenWidth/2 - 200, screenHeight/2 - 100, 400, 200);
+		eScreenRect[0].setFill(Color.RED);
+		eScreenText[0] = new Text(screenWidth/2 - 100, screenHeight/2 - 50, "Do you want to Exit?");
+		eScreenRect[1] = new Rectangle(screenWidth/2 - 190, screenHeight/2 + 10, 185, 80);
+		eScreenRect[1].setFill(Color.AZURE);
+		eScreenText[1] = new Text(screenWidth/2 - 165, screenHeight/2 + 50, "Yes");
+		eScreenRect[2] = new Rectangle(screenWidth/2 + 5, screenHeight/2 + 10, 185, 80);
+		eScreenRect[2].setFill(Color.GREEN);
+		eScreenText[2] = new Text(screenWidth/2 + 30, screenHeight/2 + 50, "No");
+	}
+	public static void escToggle() {
+		escToggle = !escToggle;
+		if (escToggle) {
+			eScreenRect[1].setFill(Color.GREEN);
+			eScreenRect[2].setFill(Color.AZURE);
+		}
+		else {
+			eScreenRect[1].setFill(Color.AZURE);
+			eScreenRect[2].setFill(Color.GREEN);
+		}
 	}
 	
 	//make menu options
@@ -92,11 +159,10 @@ public class Environment {
 	//achievements screen setting up (2)
 	public static Group makeAchievements() {
 		Group achievements = new Group();
-		Text achText = new Text(20, 20, "Achievements Page (Under development): press any key to return...");
-		achievements.getChildren().add(achText);
+		Text achievementsText = new Text(20, 20, "Achievements Page (Under development): press any key to return...");
+		achievements.getChildren().add(achievementsText);
 		return achievements;
 	}
-	
 	//store screen setting up (3)
 	public static Group makeStore() {
 		Group store = new Group();
@@ -104,7 +170,6 @@ public class Environment {
 		store.getChildren().add(storeText);
 		return store;
 	}
-	
 	//settings screen setting up (4)
 	public static Group makeSettings() {
 		Group settings = new Group();
@@ -112,7 +177,6 @@ public class Environment {
 		settings.getChildren().add(settingsText);
 		return settings;
 	}
-	
 	//game mode screen setting up (1a)
 	public static Group makeMode() {
 		Group mode = new Group();
@@ -127,6 +191,7 @@ public class Environment {
 		return mode;
 	}
 	
+	//make default hovers on option screens
 	public static void setDefault() {
 		state = 0;
 		optionHover = 1;
@@ -183,4 +248,6 @@ public class Environment {
 		//set new highlight
 		options[optionHover - 1].setFill(Color.PINK);
 	}
+	
+	
 }
