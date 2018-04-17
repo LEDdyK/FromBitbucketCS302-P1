@@ -283,6 +283,10 @@ public class Main extends Application {
 		countdown.setStrokeWidth(3);
 		gameplay.getChildren().add(countdown);
 		
+		Environment.showTime = "2:00";
+		Text timer = new Text(Environment.getScreenWidth()/2, 20, Environment.showTime);
+		gameplay.getChildren().add(timer);
+		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
@@ -315,6 +319,19 @@ public class Main extends Application {
 						}
 					}
 					else if ((Environment.timer > 4) && (Environment.timer < 125)) {
+						if (Environment.stepTimer) {
+							gameplay.getChildren().remove(timer);
+							Environment.countNum = (124 - Environment.timer)%60;
+							Environment.stepTimer = false;
+							Environment.showTime = Integer.toString((124 - Environment.timer)/60);
+							Environment.showTime = Environment.showTime.concat(":");
+							if (Environment.countNum < 10) {
+								Environment.showTime = Environment.showTime.concat("0");
+							}
+							Environment.showTime = Environment.showTime.concat(Integer.toString(Environment.countNum));
+							timer.setText(Environment.showTime);
+							gameplay.getChildren().add(timer);
+						}
 						//player control logic
 						pacman.updateTilePos(mapScale);
 						//make turns at intersections
