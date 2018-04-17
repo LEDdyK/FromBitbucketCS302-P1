@@ -36,6 +36,8 @@ public class Environment {
 	public static int playerCount;
 	public static int timer;
 	public static int frameCount;
+	public static int countNum = 3;
+	public static boolean stepTimer;
 	
 	//getters
 	public static Rectangle getpScreenRect() {

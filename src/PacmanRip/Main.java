@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -84,9 +86,9 @@ public class Main extends Application {
 		gameplay.getChildren().add(gameCanvas);
 		GraphicsContext gameGraphics = gameCanvas.getGraphicsContext2D();
 		screens[5] = new Scene(gameplay, Environment.getScreenWidth(), Environment.getScreenHeight());
+		//pause and escape buttons
 		Environment.makePRect();
 		Environment.makeERect();
-		
 		
 		//default start screen: welcome screen
 		Environment.setDefault();
@@ -168,7 +170,6 @@ public class Main extends Application {
 				stage.setScene(screens[0]);
 			}
 		});
-		
 		
 		//actions upon key press on gameplay screen
 		screens[5].setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -273,29 +274,57 @@ public class Main extends Application {
 		
 		Environment.timer = 0;
 		Environment.frameCount = 0;
+		Environment.countNum = 0;
+		
+		Text countdown = new Text(Environment.getScreenWidth()/2, Environment.getScreenHeight()/2, "Ready?");
+		countdown.setFont(Font.font("Verdana", 100));
+		countdown.setFill(Color.WHITE);
+		countdown.setStroke(Color.RED);
+		countdown.setStrokeWidth(3);
+		gameplay.getChildren().add(countdown);
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
-			public void handle(long currentNanoTime) {				
+			public void handle(long currentNanoTime) {
 				if (Environment.getState() == 5) {
 					//frame counter and displays time in seconds in console
 					if (Environment.frameCount == 60) {
 						Environment.frameCount = 0;
 						++Environment.timer;
+						Environment.stepTimer = true;
 						System.out.println(Environment.timer);
+						if (Environment.timer == 5) {
+							gameplay.getChildren().remove(countdown);
+						}
 					}
-					
 					++Environment.frameCount;
 					
-					//player control logic
-					pacman.updateTilePos(mapScale);
-					//make turns at intersections
-					if ((map[pacman.getYTile()][pacman.getXTile()] == 2) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
-						pacman.updateDirection(map);
+					if (Environment.timer < 5 && (Environment.stepTimer)) {
+						if (Environment.timer < 4) {
+							Environment.countNum = 4 - (Environment.timer);
+							gameplay.getChildren().remove(countdown);
+							countdown.setText(Integer.toString(Environment.countNum));
+							gameplay.getChildren().add(countdown);
+							Environment.stepTimer = false;
+						}
+						else {
+							gameplay.getChildren().remove(countdown);
+							countdown.setText("GO!");
+							gameplay.getChildren().add(countdown);
+							Environment.stepTimer = false;
+						}
 					}
-					pacman.move();
-					//update AI
-					AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+					else if ((Environment.timer > 4) && (Environment.timer < 125)) {
+						//player control logic
+						pacman.updateTilePos(mapScale);
+						//make turns at intersections
+						if ((map[pacman.getYTile()][pacman.getXTile()] == 2) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+							pacman.updateDirection(map);
+						}
+						pacman.move();
+						//update AI
+						AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+					}
 					
 					//update visuals
 					gameGraphics.clearRect(0, 0, 1024, 768);
