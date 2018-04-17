@@ -288,7 +288,7 @@ public class Main extends Application {
 	            	gameplay.getChildren().add(wall);
 	            }
 	            
-	            else if ((map[i][j] == 0) || /*(map[i][j] == 2) ||*/ (map[i][j] == 4)) {
+	            else if ((map[i][j] == 0) || (map[i][j] == 2) || (map[i][j] == 4)) {
 	            	foodXPos = j*wallWidth + leftOffset;
 	            	foodYPos = i*wallHeight + topOffset;
 	            	Rectangle food = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);//Creates food
@@ -331,6 +331,9 @@ public class Main extends Application {
 						if ((map[pacman.getYTile()][pacman.getXTile()] == 2) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
 							pacman.updateDirection(map);
 						}
+						if ((map[pacman.getYTile()][pacman.getXTile()] == 6) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+							pacman.updateDirection(map);
+						}
 
 	//					gameplay.getChildren().remove(Environment.getScoreTxt());
 		//				Environment.makeScoreText(); //updates getScoreTxt
@@ -357,6 +360,7 @@ public class Main extends Application {
 			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
 			            	dfood.setFill(Color.WHITE);
 			            	gameplay.getChildren().add(dfood);
+			            	pacman.updateDirection(map);
 						}
 						//warping player
 						else if ((pacman.getXTile() == 0) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
