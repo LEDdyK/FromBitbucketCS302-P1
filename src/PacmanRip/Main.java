@@ -272,65 +272,34 @@ public class Main extends Application {
 	        }
 		}
 		
-		Environment.timer = 0;
-		Environment.frameCount = 0;
-		Environment.countNum = 0;
-		
-		Text countdown = new Text(Environment.getScreenWidth()/2, Environment.getScreenHeight()/2, "Ready?");
-		countdown.setFont(Font.font("Verdana", 100));
-		countdown.setFill(Color.WHITE);
-		countdown.setStroke(Color.RED);
-		countdown.setStrokeWidth(3);
-		gameplay.getChildren().add(countdown);
-		
-		Environment.showTime = "2:00";
-		Text timer = new Text(Environment.getScreenWidth()/2, 20, Environment.showTime);
-		gameplay.getChildren().add(timer);
+		Timer gameTime = new Timer();
+		gameTime.resetCountdown();
+		gameTime.setTimeLimit(120);
+		gameTime.doGameTime();
+		gameplay.getChildren().add(gameTime.getCountdownText());
+		gameplay.getChildren().add(gameTime.getShowLimit());
+		gameTime.setTrans(true);
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
 				if (Environment.getState() == 5) {
-					//frame counter and displays time in seconds in console
-					if (Environment.frameCount == 60) {
-						Environment.frameCount = 0;
-						++Environment.timer;
-						Environment.stepTimer = true;
-						System.out.println(Environment.timer);
-						if (Environment.timer == 5) {
-							gameplay.getChildren().remove(countdown);
-						}
+					//frame counter
+					gameTime.countFrames(60);
+					//countdown: Ready? -> 3 -> 2 -> 1 -> GO!
+					if (gameTime.getTrans() && (gameTime.getSecCount() < 5)) {
+						gameplay.getChildren().remove(gameTime.getCountdownText());
+						gameTime.doCountdown();
+						gameplay.getChildren().add(gameTime.getCountdownText());
 					}
-					++Environment.frameCount;
-					
-					if (Environment.timer < 5 && (Environment.stepTimer)) {
-						if (Environment.timer < 4) {
-							Environment.countNum = 4 - (Environment.timer);
-							gameplay.getChildren().remove(countdown);
-							countdown.setText(Integer.toString(Environment.countNum));
-							gameplay.getChildren().add(countdown);
-							Environment.stepTimer = false;
-						}
-						else {
-							gameplay.getChildren().remove(countdown);
-							countdown.setText("GO!");
-							gameplay.getChildren().add(countdown);
-							Environment.stepTimer = false;
-						}
+					else if (gameTime.getTrans() && (gameTime.getSecCount() == 5)) {
+						gameplay.getChildren().remove(gameTime.getCountdownText());
 					}
-					else if ((Environment.timer > 4) && (Environment.timer < 125)) {
-						if (Environment.stepTimer) {
-							gameplay.getChildren().remove(timer);
-							Environment.countNum = (124 - Environment.timer)%60;
-							Environment.stepTimer = false;
-							Environment.showTime = Integer.toString((124 - Environment.timer)/60);
-							Environment.showTime = Environment.showTime.concat(":");
-							if (Environment.countNum < 10) {
-								Environment.showTime = Environment.showTime.concat("0");
-							}
-							Environment.showTime = Environment.showTime.concat(Integer.toString(Environment.countNum));
-							timer.setText(Environment.showTime);
-							gameplay.getChildren().add(timer);
+					if ((gameTime.getSecCount() > 4) && (gameTime.getSecCount() < 125)) {
+						if (gameTime.getTrans()) {
+							gameplay.getChildren().remove(gameTime.getShowLimit());
+							gameTime.doGameTime();
+							gameplay.getChildren().add(gameTime.getShowLimit());
 						}
 						//player control logic
 						pacman.updateTilePos(mapScale);

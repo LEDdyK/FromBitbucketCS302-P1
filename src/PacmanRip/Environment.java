@@ -34,12 +34,6 @@ public class Environment {
 	
 	//temporary placement of player count
 	public static int playerCount;
-	public static int timer;
-	public static int frameCount;
-	public static int countNum = 3;
-	public static boolean stepTimer;
-	public static int timerTrack;
-	public static String showTime;
 	
 	//getters
 	public static Rectangle getpScreenRect() {
