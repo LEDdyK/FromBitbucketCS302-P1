@@ -7,6 +7,7 @@ public abstract class Character {
 	protected int xPos, yPos;
 	//should be direction instead velocity
 	protected int xVel, yVel;
+	protected String Direction;
 	protected int velMag;
 	protected int ticker;
 	
@@ -73,5 +74,4 @@ public abstract class Character {
 		xPos = (xPos + (xVel * velMag));
 		yPos = (yPos + (yVel * velMag));
 	}
-
 }

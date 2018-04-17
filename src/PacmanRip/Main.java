@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -20,13 +19,47 @@ public class Main extends Application {
 		launch(args);
 	}
 
+	//map Array
+	int[][] map = new int[][]{
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 2, 1},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{4, 0, 0, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0, 4},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{1, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 2, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 2, 0, 2, 1},
+		{1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1},
+		{1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1},
+		{1, 2, 0, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 0, 2, 1},
+		{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
+		{1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+	};
+	int mapScale = 22;
+	
 	@Override
 	public void start(Stage stage) throws Exception {
-		
 		//Screen dimensions
 		Environment.setScreenWidth(1024);
 		Environment.setScreenHeight(768);
-		
 		//Display name of window
 		stage.setTitle("Candy Run! (Development Version)");
 		
@@ -57,13 +90,13 @@ public class Main extends Application {
 		stage.setScene(screens[0]);
 		
 		//game objects
-		int[][] map = new int[1024][768];
-		int targetX = 400;
-		int targetY = 400;
 		//game character constructors (ID, xPos, yPos, xVel, yVel, velMag)
-		Player pacman = new Player(1, 512, 384, 1, 0, 4);
+		Player pacman = new Player(1, mapScale, mapScale, 0, 0, 1);
+		pacman.setXTile(1);
+		pacman.setYTile(1);
+		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
-		Enemy blinky = new Enemy(7, 0, 100, 1, 0, 0);
+		Enemy blinky = new Enemy(7, mapScale * 2, mapScale, 1, 0, 1);
 		Image circleE = new Image("circle.png");
 		//set enemy AI mode
 		blinky.setMode(1);
@@ -140,52 +173,16 @@ public class Main extends Application {
 			public void handle(KeyEvent e) {
 				switch(e.getCode().toString()) {
 					case "UP":
-						pacman.setXVel(0);
-						pacman.setYVel(-1);
+						pacman.Direction = "UP";
 						break;
 					case "DOWN":
-						pacman.setXVel(0);
-						pacman.setYVel(1);
+						pacman.Direction = "DOWN";
 						break;
 					case "LEFT": 
-						pacman.setXVel(-1);
-						pacman.setYVel(0);
+						pacman.Direction = "LEFT";
 						break;
 					case "RIGHT":
-						pacman.setXVel(1);
-						pacman.setYVel(0);
-						break;
-					case "W":
-						pacman.setXVel(0);
-						pacman.setYVel(-1);
-						break;
-					case "S":
-						pacman.setXVel(0);
-						pacman.setYVel(1);
-						break;
-					case "A": 
-						pacman.setXVel(-1);
-						pacman.setYVel(0);
-						break;
-					case "D":
-						pacman.setXVel(1);
-						pacman.setYVel(0);
-						break;
-					case "I":
-						pacman.setXVel(0);
-						pacman.setYVel(-1);
-						break;
-					case "K":
-						pacman.setXVel(0);
-						pacman.setYVel(1);
-						break;
-					case "J": 
-						pacman.setXVel(-1);
-						pacman.setYVel(0);
-						break;
-					case "L":
-						pacman.setXVel(1);
-						pacman.setYVel(0);
+						pacman.Direction = "RIGHT";
 						break;
 					case "ESCAPE":
 						if (Environment.getState() == 5) {
@@ -220,24 +217,68 @@ public class Main extends Application {
 				}
 			}
 		});
+			
+		//wall dimensions
+		int wallWidth = mapScale;
+		int wallHeight = mapScale;
+		//wall position
+		int wallXPos = 0;
+		int wallYPos = 0;
+		//food position
+		int foodXPos = 0;
+		int foodYPos = 0;
+		//Loops to implement map
+		for(int i=0; i<map.length; i++) {
+	        for(int j=0; j<map[i].length; j++) {
+	            if (map[i][j] == 1) {
+	            	wallXPos = j*wallWidth;
+	            	wallYPos = i*wallHeight;
+	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);//Creates walls
+	            	gameplay.getChildren().add(wall);
+	            }
+	            else if ((map[i][j] == 0) || (map[i][j] == 2) || (map[i][j] == 4)) {
+	            	foodXPos = j*wallWidth;
+	            	foodYPos = i*wallHeight;
+	            	Rectangle food = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);//Creates food
+	            	food.setFill(Color.BLUE);
+	            	gameplay.getChildren().add(food);
+	            }
+	        }
+		}
 		
 		Environment.timer = 0;
 		Environment.frameCount = 0;
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
-			public void handle(long currentNanoTime) {
+			public void handle(long currentNanoTime) {				
 				if (Environment.getState() == 5) {
+					//frame counter and displays time in seconds in console
 					if (Environment.frameCount == 60) {
 						Environment.frameCount = 0;
 						++Environment.timer;
-						System.out.println(Environment.timer);
+//						System.out.println(Environment.timer);
 					}
 					
 					++Environment.frameCount;
-					pacman.move();
-					AiController.controlEnemy(blinky, pacman, map, 100, targetX, targetY);
 					
+					//player control logic
+					pacman.updateTilePos(mapScale);
+					//make turns at intersections
+					if ((map[pacman.getYTile()][pacman.getXTile()] == 2) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+						pacman.updateDirection(map);
+					}
+					else if ((pacman.getXTile() == 0) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+						pacman.setXPos(571);
+					}
+					else if ((pacman.getXTile() == 26) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+						pacman.setXPos(1);
+					}
+					pacman.move();
+					//update AI
+					AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+					
+					//update visuals
 					gameGraphics.clearRect(0, 0, 1024, 768);
 					gameGraphics.drawImage(circle, pacman.getXPos(), pacman.getYPos());
 					gameGraphics.drawImage(circleE, blinky.getXPos(), blinky.getYPos());

@@ -65,37 +65,37 @@ public class Enemy extends Character{
 	public void setAvailDir(int[][] map, int tileDim) {
 		if (xVel != 0) {
 			//up
-			if (map[xPos + xVel * tileDim/2][yPos - tileDim] == 0) {
+			if (map[(yPos - tileDim)/tileDim][(xPos + xVel * tileDim)/tileDim] == 0) {
 				availDir[0] = true;
 			} else availDir[0] = false;
 			//down
-			if (map[xPos + xVel * tileDim/2][yPos + tileDim] == 0) {
+			if (map[(yPos + tileDim)/tileDim][(xPos + xVel * tileDim)/tileDim] == 0) {
 				availDir[1] = true;
 			} else availDir[1] = false;
 			//left
-			if ((map[xPos + xVel * tileDim/2 - tileDim][yPos] == 0) && (xVel != 1)) {
+			if ((map[yPos/tileDim][(xPos + xVel * tileDim - tileDim)/tileDim] == 0) && (xVel != 1)) {
 				availDir[2] = true;
 			} else availDir[2] = false;
 			//right
-			if ((map[xPos + xVel * tileDim/2 + tileDim][yPos] == 0) && (xVel != -1)) {
+			if ((map[yPos/tileDim][(xPos + xVel * tileDim + tileDim)/tileDim] == 0) && (xVel != -1)) {
 				availDir[3] = true;
 			} else availDir[3] = false;
 		}
 		else {
 			//up
-			if ((map[xPos][yPos + yVel * tileDim/2 - tileDim] == 0) && (yVel != 1)) {
+			if ((map[(yPos + yVel * tileDim - tileDim)/tileDim][xPos/tileDim] == 0) && (yVel != 1)) {
 				availDir[0] = true;
 			} else availDir[0] = false;
 			//down
-			if ((map[xPos][yPos + yVel * tileDim/2 + tileDim] == 0) && (yVel != -1)) {
+			if ((map[(yPos + yVel * tileDim + tileDim)/tileDim][xPos/tileDim] == 0) && (yVel != -1)) {
 				availDir[1] = true;
 			} else availDir[1] = false;
 			//left
-			if (map[xPos - tileDim][yPos + yVel * tileDim/2] == 0) {
+			if (map[(yPos + yVel * tileDim)/tileDim][(xPos - tileDim)/tileDim] == 0) {
 				availDir[2] = true;
 			} else availDir[2] = false;
 			//right
-			if (map[xPos + tileDim][yPos + yVel * tileDim/2] == 0) {
+			if (map[(yPos + yVel * tileDim)/tileDim][(xPos + tileDim)/tileDim] == 0) {
 				availDir[3] = true;
 			} else availDir[3] = false;
 		}
