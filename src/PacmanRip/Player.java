@@ -1,16 +1,24 @@
 package PacmanRip;
 
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+
 public class Player extends Character {
 	
 	private int xTile;
 	private int yTile;
 	private boolean toggle;
+	private static int score = 0;
 
 	public Player(int id, int xPos, int yPos, int xVel, int yVel, int velMag) {
 		super(id, xPos, yPos, xVel, yVel, velMag);
 	}
 	
 	//getters
+	public static int getScore() {
+		return score;
+	}
 	public int getXTile() {
 		return xTile;
 	}
@@ -22,14 +30,21 @@ public class Player extends Character {
 	}
 	
 	//setters
+	public void setScore(int Score) {
+		score = Score;
+	}
 	public void setXTile(int X) {
 		xTile = X;
 	}
-	public void setYTile(int Y) {
+		public void setYTile(int Y) {
 		yTile = Y;
 	}
 	public void setToggle(boolean T) {
 		toggle = T;
+	}
+	
+	public static void incrementScore() {
+		score = score+1;
 	}
 	
 	//call this function to update x and y tile positions and allow reverse

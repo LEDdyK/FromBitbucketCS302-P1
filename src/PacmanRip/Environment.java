@@ -3,6 +3,7 @@ package PacmanRip;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class Environment {
@@ -31,6 +32,12 @@ public class Environment {
 	private static Text[] eScreenText;
 	//escape prompt toggle
 	private static boolean escToggle;
+	//Score
+	private static Text scoreTxt;
+	//Times up Rectangle
+	private static Rectangle tURect;
+	//Times up Text
+	private static Text tUText;
 	
 	//temporary placement of player count
 	public static int playerCount;
@@ -42,6 +49,12 @@ public class Environment {
 	public static Text getpScreenText() {
 		return pScreenText;
 	}
+	public static Rectangle getTURect() {
+		return tURect;
+	}
+	public static Text getTUText() {
+		return tUText;
+	}	
 	public static Rectangle geteScreenRect(int i) {
 		return eScreenRect[i];
 	}
@@ -69,6 +82,9 @@ public class Environment {
 	public static boolean getEscToggle() {
 		return escToggle;
 	}
+	public static Text getScoreTxt() {
+		return scoreTxt;
+	}
 	
 	//setters
 	public static void setScreenWidth(int pixels) {
@@ -86,12 +102,32 @@ public class Environment {
 		eScreenRect[2].setFill(Color.GREEN);
 	}
 	
+	//Score Display
+	public static void makeScoreText() {
+		scoreTxt = new Text(Environment.getScreenWidth()/4, 50, "Score = " + String.valueOf(Player.getScore()));
+		
+	}
+	
 	//Pause Screen
 	public static void makePRect() {
 		pScreenRect = new Rectangle((Environment.getScreenWidth()/2)-200, (Environment.getScreenHeight()/2)-50, 400, 100);
 		pScreenRect.setFill(Color.rgb(0,191,255, 0.4));
 		pScreenText = new Text((Environment.getScreenWidth()/2)-50, (Environment.getScreenHeight()/2)-25, "PAUSED");
 	}
+	
+	//Times up!
+	public static void makeTURect() {
+		tURect = new Rectangle((Environment.getScreenWidth()/2)-200, (Environment.getScreenHeight()/2)-50, 400, 100);
+		tURect.setFill(Color.rgb(0,191,255, 0.4));
+		tUText = new Text("Times up!");
+		tUText.setFont(Font.font("Verdana", 100));
+		tUText.setFill(Color.RED);
+		tUText.setStroke(Color.GREEN);
+		tUText.setStrokeWidth(3);
+		tUText.setX(Environment.getScreenWidth()/2);
+		tUText.setY(Environment.getScreenHeight()/2);
+	}
+	
 	
 	//Exit prompt
 	public static void makeERect() {

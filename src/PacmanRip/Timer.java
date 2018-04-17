@@ -55,6 +55,9 @@ public class Timer {
 	public void resetCountdown() {
 		countdownValue = 4;
 	}
+	public void endCountdown() {
+		secCount = 125;
+	}
 	
 	public void doCountdown() {
 		if (countdownValue == 4) {

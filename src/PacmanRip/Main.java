@@ -37,7 +37,7 @@ public class Main extends Application {
 		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
 		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-		{0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0},
+		{4, 0, 0, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0, 4},
 		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
 		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
@@ -56,6 +56,10 @@ public class Main extends Application {
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
 	int mapScale = 22;
+	
+	private void setMapValue(int YTile, int XTile, int value) {
+		map[YTile][XTile] = value;
+	}
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -89,6 +93,8 @@ public class Main extends Application {
 		//pause and escape buttons
 		Environment.makePRect();
 		Environment.makeERect();
+		Environment.makeScoreText();
+		Environment.makeTURect();
 		
 		//default start screen: welcome screen
 		Environment.setDefault();
@@ -171,6 +177,14 @@ public class Main extends Application {
 			}
 		});
 		
+		Timer gameTime = new Timer();
+		gameTime.resetCountdown();
+		gameTime.setTimeLimit(120);
+		gameTime.doGameTime();
+		gameplay.getChildren().add(gameTime.getCountdownText());
+		gameplay.getChildren().add(gameTime.getShowLimit());
+		gameTime.setTrans(true);
+		
 		//actions upon key press on gameplay screen
 		screens[5].setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -240,10 +254,20 @@ public class Main extends Application {
 							}
 						}
 						break;
+					case "PAGE_DOWN":
+						if (Environment.getState() == 5){
+							System.out.println("hhhhh");
+							gameTime.endCountdown();
+							gameplay.getChildren().addAll(Environment.getTURect(),Environment.getTUText());
+							/*Needs to be completed
+							 * Needs Restart and main menu buttons*/
+						}
 				}
 			}
 		});
 			
+		
+		
 		//wall dimensions
 		int wallWidth = mapScale;
 		int wallHeight = mapScale;
@@ -257,12 +281,14 @@ public class Main extends Application {
 		for(int i=0; i<map.length; i++) {
 	        for(int j=0; j<map[i].length; j++) {
 	            if (map[i][j] == 1) {
+	            	
 	            	wallXPos = j*wallWidth + leftOffset;
 	            	wallYPos = i*wallHeight + topOffset;
 	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);//Creates walls
 	            	gameplay.getChildren().add(wall);
 	            }
-	            else if ((map[i][j] == 0) || (map[i][j] == 2)) {
+	            
+	            else if ((map[i][j] == 0) || /*(map[i][j] == 2) ||*/ (map[i][j] == 4)) {
 	            	foodXPos = j*wallWidth + leftOffset;
 	            	foodYPos = i*wallHeight + topOffset;
 	            	Rectangle food = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);//Creates food
@@ -272,18 +298,14 @@ public class Main extends Application {
 	        }
 		}
 		
-		Timer gameTime = new Timer();
-		gameTime.resetCountdown();
-		gameTime.setTimeLimit(120);
-		gameTime.doGameTime();
-		gameplay.getChildren().add(gameTime.getCountdownText());
-		gameplay.getChildren().add(gameTime.getShowLimit());
-		gameTime.setTrans(true);
+		
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
+				
 				if (Environment.getState() == 5) {
+					
 					//frame counter
 					gameTime.countFrames(60);
 					//countdown: Ready? -> 3 -> 2 -> 1 -> GO!
@@ -301,15 +323,63 @@ public class Main extends Application {
 							gameTime.doGameTime();
 							gameplay.getChildren().add(gameTime.getShowLimit());
 						}
+											
 						//player control logic
 						pacman.updateTilePos(mapScale);
+						
 						//make turns at intersections
 						if ((map[pacman.getYTile()][pacman.getXTile()] == 2) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
 							pacman.updateDirection(map);
 						}
+
+	//					gameplay.getChildren().remove(Environment.getScoreTxt());
+		//				Environment.makeScoreText(); //updates getScoreTxt
+		//				System.out.print(map[pacman.getYTile()][pacman.getXTile()]);
+						
+						//Eating food, incrementing score
+						if (/*(map[pacman.getYTile()][pacman.getXTile()] == 4) || */(map[pacman.getYTile()][pacman.getXTile()] == 0)) {
+							Player.incrementScore();
+							setMapValue(pacman.getYTile(),pacman.getXTile(),5);
+							int dfoodXPos = pacman.getXTile()*wallWidth + leftOffset;
+			            	int dfoodYPos = pacman.getYTile()*wallHeight + topOffset;
+			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
+			            	dfood.setFill(Color.WHITE);
+			            	gameplay.getChildren().add(dfood);
+			           // 	gameplay.getChildren().add(Environment.getScoreTxt());
+							
+						}
+						//Eating food at corners, incrementing score
+						if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
+							Player.incrementScore();
+							setMapValue(pacman.getYTile(),pacman.getXTile(),6);
+							int dfoodXPos = pacman.getXTile()*wallWidth + leftOffset;
+			            	int dfoodYPos = pacman.getYTile()*wallHeight + topOffset;
+			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
+			            	dfood.setFill(Color.WHITE);
+			            	gameplay.getChildren().add(dfood);
+						}
+						//warping player
+						else if ((pacman.getXTile() == 0) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+							pacman.setXPos(571);
+						}						
+						else if ((pacman.getXTile() == 26) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+							pacman.setXPos(1);							
+						}
+												
 						pacman.move();
+						
+						
 						//update AI
 						AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+				//		gameplay.getChildren().remove(Environment.getScoreTxt());
+
+/*printing map to check proper labelling of points
+ 						for(int i=0; i<map.length; i++) {
+							System.out.println();
+					        for(int j=0; j<map[i].length; j++) {
+					        	System.out.print(map[i][j]);
+					        }
+					        }*/
 					}
 					
 					//update visuals
@@ -318,6 +388,7 @@ public class Main extends Application {
 					gameGraphics.drawImage(circleE, blinky.getXPos() + leftOffset, blinky.getYPos() + topOffset);
 				}
 			}
+		
 		}.start();
 		
 		//show
