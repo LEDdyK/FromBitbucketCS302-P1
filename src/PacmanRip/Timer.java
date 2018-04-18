@@ -52,8 +52,8 @@ public class Timer {
 		timeLimit = T;
 	}
 	
-	public void resetCountdown() {
-		countdownValue = 4;
+	public static void resetCountdown() {
+//		secCount = 0;
 	}
 	public void endCountdown() {
 		secCount = 125;

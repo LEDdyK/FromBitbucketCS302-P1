@@ -55,7 +55,7 @@ public class Main extends Application {
 		{1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
-	int mapScale = 22;
+	static int mapScale = 22;
 	
 	private void setMapValue(int YTile, int XTile, int value) {
 		map[YTile][XTile] = value;
@@ -102,12 +102,12 @@ public class Main extends Application {
 		
 		//game objects
 		//game character constructors (ID, xPos, yPos, xVel, yVel, velMag)
-		Player pacman = new Player(1, mapScale, mapScale, 0, 0, 1);
+		Player pacman = new Player(1, mapScale+44, mapScale, 0, 0, 1);
 		pacman.setXTile(1);
 		pacman.setYTile(1);
 		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
-		Enemy blinky = new Enemy(7, mapScale, mapScale, 0, 0, 1);
+		Enemy blinky = new Enemy(7, mapScale, mapScale, 1, 0, 1);
 		Image circleE = new Image("circle.png");
 		//set enemy AI mode
 		blinky.setMode(1);
@@ -295,6 +295,7 @@ public class Main extends Application {
 	        }
 		}
 		
+		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
@@ -374,6 +375,23 @@ public class Main extends Application {
 //					        	System.out.print(map[i][j]);
 //					        }
 // 						}
+						if ((pacman.getXPos() == blinky.getXPos()) && (pacman.getYPos() == blinky.getYPos())) {
+							Environment.setState(6);
+							if (Player.getLives() == 0) {
+								//Game Over Screen
+							}
+							Timer.resetCountdown();
+							Player.decrementLife();
+							System.out.println("lost life");
+							System.out.println(Player.getLives());
+							pacman.resetVel();
+							blinky.resetVel();
+							pacman.resetPacPos();
+							blinky.resetGPos();
+							
+							
+							Environment.setState(5);
+						}
 					}
 					
 					//update visuals

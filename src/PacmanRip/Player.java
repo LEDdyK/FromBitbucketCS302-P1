@@ -10,6 +10,7 @@ public class Player extends Character {
 	private int yTile;
 	private boolean toggle;
 	private static int score = 0;
+	private static int lives = 3;
 
 	public Player(int id, int xPos, int yPos, int xVel, int yVel, int velMag) {
 		super(id, xPos, yPos, xVel, yVel, velMag);
@@ -18,6 +19,9 @@ public class Player extends Character {
 	//getters
 	public static int getScore() {
 		return score;
+	}
+	public static int getLives() {
+		return lives;
 	}
 	public int getXTile() {
 		return xTile;
@@ -33,6 +37,9 @@ public class Player extends Character {
 	public void setScore(int Score) {
 		score = Score;
 	}
+	public void setLives(int Lives) {
+		lives = Lives;
+	}
 	public void setXTile(int X) {
 		xTile = X;
 	}
@@ -45,6 +52,9 @@ public class Player extends Character {
 	
 	public static void incrementScore() {
 		score = score+1;
+	}
+	public static void decrementLife() {
+		lives = lives-1;
 	}
 	
 	//call this function to update x and y tile positions and allow reverse

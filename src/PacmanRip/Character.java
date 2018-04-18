@@ -69,6 +69,18 @@ public abstract class Character {
 	public void setTick(int ticker) {
 		this.ticker = ticker;
 	}
+	public void resetPacPos() {
+		this.xPos = Main.mapScale+44;
+		this.yPos = Main.mapScale;		
+	}
+	public void resetGPos() {
+		this.xPos = Main.mapScale;
+		this.yPos = Main.mapScale;		
+	}
+	public void resetVel() {
+		this.xVel = 0;
+		this.yVel = 0;
+	}
 	
 	public void move() {
 		xPos = (xPos + (xVel * velMag));
