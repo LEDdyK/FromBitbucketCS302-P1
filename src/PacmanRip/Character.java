@@ -10,6 +10,8 @@ public abstract class Character {
 	protected String Direction;
 	protected int velMag;
 	protected int ticker;
+	protected int xTile;
+	protected int yTile;
 	
 	//Constructor
 	public Character(int id, int xPos, int yPos, int xVel, int yVel, int velMag) {
@@ -46,6 +48,12 @@ public abstract class Character {
 	public int getTick() {
 		return ticker;
 	}
+	public int getXTile() {
+		return xTile;
+	}
+	public int getYTile() {
+		return yTile;
+	}
 	
 	//setters
 	public void setID(int id) {
@@ -69,9 +77,18 @@ public abstract class Character {
 	public void setTick(int ticker) {
 		this.ticker = ticker;
 	}
+	public void setXTile(int X) {
+		this.xTile = X;
+	}
+	public void setYTile(int Y) {
+		this.yTile = Y;
+	}
 	
 	public void move() {
 		xPos = (xPos + (xVel * velMag));
 		yPos = (yPos + (yVel * velMag));
+	}
+	public boolean checkExact(int mapScale) {
+		return((xPos % mapScale == 0) && (yPos % mapScale == 0));
 	}
 }

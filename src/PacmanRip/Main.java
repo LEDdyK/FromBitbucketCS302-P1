@@ -31,15 +31,15 @@ public class Main extends Application {
 		{1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1},
 		{1, 2, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 2, 1},
 		{1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-		{0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
-		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-		{4, 0, 0, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0, 4},
-		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+		{9, 9, 9, 9, 9, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 9, 9, 9, 9, 9},
+		{9, 9, 9, 9, 9, 1, 0, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 0, 1, 9, 9, 9, 9, 9},
+		{9, 9, 9, 9, 9, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 9, 9, 9, 9, 9},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 9, 9, 9, 9, 9, 9, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{4, 0, 0, 0, 0, 0, 2, 0, 0, 2, 1, 9, 9, 9, 9, 9, 9, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0, 4},
+		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 9, 9, 9, 9, 9, 9, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+		{9, 9, 9, 9, 9, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 9, 9, 9, 9, 9},
+		{9, 9, 9, 9, 9, 1, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 1, 9, 9, 9, 9, 9},
+		{9, 9, 9, 9, 9, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 9, 9, 9, 9, 9},
 		{1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
 		{1, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 1},
 		{1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
@@ -100,35 +100,35 @@ public class Main extends Application {
 		
 		//game objects
 		//game character constructors (ID, xPos, yPos, xVel, yVel, velMag)
-		Player pacman = new Player(1, mapScale, mapScale, 0, 0, 1);
+		Player pacman = new Player(1, mapScale, mapScale, 0, 0, 2);
 		pacman.setXTile(1);
 		pacman.setYTile(1);
 		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
-		Player multiOne = new Player(1, mapScale, mapScale*2, 0, 0, 1);
+		Player multiOne = new Player(1, mapScale, mapScale*2, 0, 0, 2);
 		multiOne.setXTile(1);
 		multiOne.setYTile(1);
 		multiOne.Direction = "DOWN";
 		Image multiOneSprite = new Image("M1.png");
-		Player multiTwo = new Player(1, mapScale, mapScale*3, 0, 0, 1);
+		Player multiTwo = new Player(1, mapScale, mapScale*3, 0, 0, 2);
 		multiTwo.setXTile(1);
 		multiTwo.setYTile(1);
 		multiTwo.Direction = "DOWN";
 		Image multiTwoSprite = new Image("M2.png");
 		
-		Enemy blinky = new Enemy(7, mapScale*2, mapScale, 1, 0, 1);
+		Enemy blinky = new Enemy(7, mapScale*2, mapScale, 1, 0, 2);
 		Image circleE = new Image("circle.png");
 		//set enemy AI mode
 		blinky.setMode(1);
-		Enemy pinky = new Enemy(7, mapScale*3, mapScale, 1, 0, 1);
+		Enemy pinky = new Enemy(7, mapScale*3, mapScale, 1, 0, 2);
 		Image circleP = new Image("circle.png");
 		//set enemy AI mode
 		pinky.setMode(1);
-		Enemy inky = new Enemy(7, mapScale*4, mapScale, 1, 0, 1);
+		Enemy inky = new Enemy(7, mapScale*4, mapScale, 1, 0, 2);
 		Image circleI = new Image("circle.png");
 		//set enemy AI mode
 		inky.setMode(1);
-		Enemy clyde = new Enemy(7, mapScale*5, mapScale, 1, 0, 1);
+		Enemy clyde = new Enemy(7, mapScale*5, mapScale, 1, 0, 2);
 		Image circleC = new Image("circle.png");
 		//set enemy AI mode
 		clyde.setMode(1);
@@ -160,7 +160,7 @@ public class Main extends Application {
 				switch(e.getCode().toString()) {
 					case "ENTER":
 						stage.setScene(screens[Environment.switchGame()]);
-						Environment.playerCount = Environment.getOptionHover();
+						Environment.setPlayerCount(Environment.getOptionHover());
 						break;
 					case "UP":
 						Environment.highlightUp(Environment.getModeOptions());
@@ -358,7 +358,6 @@ public class Main extends Application {
 	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);//Creates walls
 	            	gameplay.getChildren().add(wall);
 	            }
-	            
 	            else if (map[i][j] == 0 || map[i][j] == 2) {
 	            	foodXPos = j*wallWidth + leftOffset;
 	            	foodYPos = i*wallHeight + topOffset;
@@ -368,6 +367,7 @@ public class Main extends Application {
 	            }
 	        }
 		}
+		
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
@@ -400,7 +400,7 @@ public class Main extends Application {
 						//player control logic
 						pacman.updateTilePos(mapScale);
 						//make turns at intersections
-						if ((map[pacman.getYTile()][pacman.getXTile()] == 2 || map[pacman.getYTile()][pacman.getXTile()] == 6) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
+						if ((map[pacman.getYTile()][pacman.getXTile()] == 2 || map[pacman.getYTile()][pacman.getXTile()] == 6) && pacman.checkExact(mapScale)) {
 							pacman.updateDirection(map);
 						}
 //						gameplay.getChildren().remove(Environment.getScoreTxt());
@@ -429,37 +429,41 @@ public class Main extends Application {
 //			            	gameplay.getChildren().add(Environment.getScoreTxt());
 						}
 						//warping player
-						else if ((pacman.getXTile() == 0) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
-							pacman.setXPos((map[0].length - 1) * mapScale - 1);
+						if ((pacman.getXTile() == 0) && pacman.checkExact(mapScale)) {
+							pacman.setXPos((map[0].length - 1) * mapScale - pacman.getVelMag());
 						}						
-						else if ((pacman.getXTile() == (map[0].length-1)) && (pacman.getXPos() % mapScale == 0) && (pacman.getYPos() % mapScale == 0)) {
-							pacman.setXPos(1);
+						else if ((pacman.getXTile() == (map[0].length-1)) && pacman.checkExact(mapScale)) {
+							pacman.setXPos(pacman.getVelMag());
 						}
 						pacman.move();
 						
 
-						if (Environment.playerCount > 1) {
+						if (Environment.getPlayerCount() > 1) {
+							//update player 2
 							multiOne.updateTilePos(mapScale);
-							if ((map[multiOne.getYTile()][multiOne.getXTile()] == 2 || map[multiOne.getYTile()][multiOne.getXTile()] == 6) && (multiOne.getXPos() % mapScale == 0) && (multiOne.getYPos() % mapScale == 0)) {
+							if ((map[multiOne.getYTile()][multiOne.getXTile()] == 2 || map[multiOne.getYTile()][multiOne.getXTile()] == 6) && multiOne.checkExact(mapScale)) {
 								multiOne.updateDirection(map);
 							}
-							if ((multiOne.getXTile() == 0) && (multiOne.getXPos() % mapScale == 0) && (multiOne.getYPos() % mapScale == 0)) {
-								multiOne.setXPos((map[0].length - 1) * mapScale - 1);
+							//warp control
+							if ((multiOne.getXTile() == 0) && multiOne.checkExact(mapScale)) {
+								multiOne.setXPos((map[0].length - 1) * mapScale - multiOne.getVelMag());
 							}						
-							else if ((multiOne.getXTile() == (map[0].length-1)) && (multiOne.getXPos() % mapScale == 0) && (multiOne.getYPos() % mapScale == 0)) {
-								multiOne.setXPos(1);
+							else if ((multiOne.getXTile() == (map[0].length-1)) && multiOne.checkExact(mapScale)) {
+								multiOne.setXPos(multiOne.getVelMag());
 							}
 							multiOne.move();
-							if (Environment.playerCount == 3) {
+							//update player 3
+							if (Environment.getPlayerCount() == 3) {
+								//warp control
 								multiTwo.updateTilePos(mapScale);
-								if ((map[multiTwo.getYTile()][multiTwo.getXTile()] == 2 || map[multiTwo.getYTile()][multiTwo.getXTile()] == 6) && (multiTwo.getXPos() % mapScale == 0) && (multiTwo.getYPos() % mapScale == 0)) {
+								if ((map[multiTwo.getYTile()][multiTwo.getXTile()] == 2 || map[multiTwo.getYTile()][multiTwo.getXTile()] == 6) && multiTwo.checkExact(mapScale)) {
 									multiTwo.updateDirection(map);
 								}
-								if ((multiTwo.getXTile() == 0) && (multiTwo.getXPos() % mapScale == 0) && (multiTwo.getYPos() % mapScale == 0)) {
-									multiTwo.setXPos((map[0].length - 1) * mapScale - 1);
+								if ((multiTwo.getXTile() == 0) && multiTwo.checkExact(mapScale)) {
+									multiTwo.setXPos((map[0].length - 1) * mapScale - multiTwo.getVelMag());
 								}						
-								else if ((multiTwo.getXTile() == (map[0].length-1)) && (multiTwo.getXPos() % mapScale == 0) && (multiTwo.getYPos() % mapScale == 0)) {
-									multiTwo.setXPos(1);
+								else if ((multiTwo.getXTile() == (map[0].length-1)) && multiTwo.checkExact(mapScale)) {
+									multiTwo.setXPos(multiTwo.getVelMag());
 								}
 								multiTwo.move();
 							}
@@ -467,11 +471,36 @@ public class Main extends Application {
 						
 						//update AI
 						AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+						//warping AI
+						if ((blinky.getXPos()/mapScale == 0) && blinky.checkExact(mapScale)) {
+							blinky.setXPos((map[0].length - 1) * mapScale - blinky.getVelMag());
+						}						
+						else if ((blinky.getXPos()/mapScale == (map[0].length-1)) && blinky.checkExact(mapScale)) {
+							blinky.setXPos(blinky.getVelMag());
+						}
 						AiController.controlEnemy(pinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
-						if (Environment.playerCount < 3) {
+						if ((pinky.getXPos()/mapScale == 0) && pinky.checkExact(mapScale)) {
+							pinky.setXPos((map[0].length - 1) * mapScale - pinky.getVelMag());
+						}						
+						else if ((pinky.getXPos()/mapScale == (map[0].length-1)) && pinky.checkExact(mapScale)) {
+							pinky.setXPos(pinky.getVelMag());
+						}
+						if (Environment.getPlayerCount() < 3) {
 							AiController.controlEnemy(inky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
-							if (Environment.playerCount == 1) {
+							if ((inky.getXPos()/mapScale == 0) && inky.checkExact(mapScale)) {
+								inky.setXPos((map[0].length - 1) * mapScale - inky.getVelMag());
+							}						
+							else if ((inky.getXPos()/mapScale == (map[0].length-1)) && inky.checkExact(mapScale)) {
+								inky.setXPos(inky.getVelMag());
+							}
+							if (Environment.getPlayerCount() == 1) {
 								AiController.controlEnemy(clyde, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+								if ((clyde.getXPos()/mapScale == 0) && clyde.checkExact(mapScale)) {
+									clyde.setXPos((map[0].length - 1) * mapScale - clyde.getVelMag());
+								}						
+								else if ((clyde.getXPos()/mapScale == (map[0].length-1)) && clyde.checkExact(mapScale)) {
+									clyde.setXPos(clyde.getVelMag());
+								}
 							}
 						}
 //						gameplay.getChildren().remove(Environment.getScoreTxt());
@@ -490,15 +519,15 @@ public class Main extends Application {
 					gameGraphics.drawImage(circle, pacman.getXPos() + leftOffset, pacman.getYPos() + topOffset);
 					gameGraphics.drawImage(circleE, blinky.getXPos() + leftOffset, blinky.getYPos() + topOffset);
 					gameGraphics.drawImage(circleP, pinky.getXPos() + leftOffset, pinky.getYPos() + topOffset);
-					if (Environment.playerCount < 3) {
+					if (Environment.getPlayerCount() < 3) {
 						gameGraphics.drawImage(circleI, inky.getXPos() + leftOffset, inky.getYPos() + topOffset);
-						if (Environment.playerCount == 1) {
+						if (Environment.getPlayerCount() == 1) {
 							gameGraphics.drawImage(circleC, clyde.getXPos() + leftOffset, clyde.getYPos() + topOffset);
 						}
 					}
-					if (Environment.playerCount > 1) {
+					if (Environment.getPlayerCount() > 1) {
 						gameGraphics.drawImage(multiOneSprite, multiOne.getXPos() + leftOffset, multiOne.getYPos() + topOffset);
-						if (Environment.playerCount == 3) {
+						if (Environment.getPlayerCount() == 3) {
 							gameGraphics.drawImage(multiTwoSprite, multiTwo.getXPos() + leftOffset, multiTwo.getYPos() + topOffset);
 						}
 					}

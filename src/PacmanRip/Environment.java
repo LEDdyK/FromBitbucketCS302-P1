@@ -40,7 +40,7 @@ public class Environment {
 	private static Text tUText;
 	
 	//temporary placement of player count
-	public static int playerCount;
+	private static int playerCount;
 	
 	//getters
 	public static Rectangle getpScreenRect() {
@@ -85,6 +85,9 @@ public class Environment {
 	public static Text getScoreTxt() {
 		return scoreTxt;
 	}
+	public static int getPlayerCount() {
+		return playerCount;
+	}
 	
 	//setters
 	public static void setScreenWidth(int pixels) {
@@ -100,6 +103,9 @@ public class Environment {
 		escToggle = T;
 		eScreenRect[1].setFill(Color.AZURE);
 		eScreenRect[2].setFill(Color.GREEN);
+	}
+	public static void setPlayerCount(int count) {
+		playerCount = count;
 	}
 	
 	//Score Display
@@ -231,7 +237,6 @@ public class Environment {
 		optionHover = 1;
 		welOptions[0].setFill(Color.PINK);
 	}
-	
 	public static int switchScreen() {
 		//reset highlight then switch to appropriate screen
 		welOptions[optionHover - 1].setFill(Color.AZURE);
@@ -241,7 +246,6 @@ public class Environment {
 		}
 		return state;
 	}
-	
 	public static int switchGame() {
 		//reset highlight then switch to appropriate screen
 		modeOptions[optionHover - 1].setFill(Color.AZURE);
@@ -268,7 +272,6 @@ public class Environment {
 		//set new highlight
 		options[optionHover - 1].setFill(Color.PINK);
 	}
-	
 	public static void highlightDown(Rectangle[] options) {
 		//reset highlight
 		options[optionHover - 1].setFill(Color.AZURE);
@@ -282,6 +285,4 @@ public class Environment {
 		//set new highlight
 		options[optionHover - 1].setFill(Color.PINK);
 	}
-	
-	
 }

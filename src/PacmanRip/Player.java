@@ -1,9 +1,6 @@
 package PacmanRip;
 
 public class Player extends Character {
-	
-	private int xTile;
-	private int yTile;
 	private boolean toggle;
 	private static int score = 0;
 
@@ -15,12 +12,6 @@ public class Player extends Character {
 	public static int getScore() {
 		return score;
 	}
-	public int getXTile() {
-		return xTile;
-	}
-	public int getYTile() {
-		return yTile;
-	}
 	public boolean getToggle() {
 		return toggle;
 	}
@@ -28,12 +19,6 @@ public class Player extends Character {
 	//setters
 	public void setScore(int Score) {
 		score = Score;
-	}
-	public void setXTile(int X) {
-		xTile = X;
-	}
-		public void setYTile(int Y) {
-		yTile = Y;
 	}
 	public void setToggle(boolean T) {
 		toggle = T;
@@ -81,7 +66,7 @@ public class Player extends Character {
 	public void updateDirection(int[][] map) {
 		switch(Direction) {
 			case "UP":
-				if (map[getYTile() - 1][getXTile()] == 1) {
+				if (map[yTile - 1][xTile] == 1) {
 					setXVel(0);
 					setYVel(0);
 				}
@@ -91,7 +76,7 @@ public class Player extends Character {
 				}
 				break;
 			case "DOWN":
-				if (map[getYTile() + 1][getXTile()] == 1) {
+				if (map[yTile + 1][xTile] == 1) {
 					setXVel(0);
 					setYVel(0);
 				}
@@ -101,7 +86,7 @@ public class Player extends Character {
 				}							
 				break;
 			case "LEFT":
-				if (map[getYTile()][getXTile() - 1] == 1) {
+				if (map[yTile][xTile - 1] == 1) {
 					setXVel(0);
 					setYVel(0);
 				}
@@ -111,7 +96,7 @@ public class Player extends Character {
 				}
 				break;
 			case "RIGHT":
-				if (map[getYTile()][getXTile() + 1] == 1) {
+				if (map[yTile][xTile + 1] == 1) {
 					setXVel(0);
 					setYVel(0);
 				}
