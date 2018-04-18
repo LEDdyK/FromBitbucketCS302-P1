@@ -208,6 +208,7 @@ public class Main extends Application {
 						gameTime.resetAllTime();
 						gameplay.getChildren().add(gameTime.getCountdownText());
 						gameplay.getChildren().add(gameTime.getShowLimit());
+						pacman.setScore(0);
 						Environment.setPlayerCount(Environment.getOptionHover());
 						stage.setScene(screens[Environment.switchGame()]);
 						break;
@@ -380,6 +381,10 @@ public class Main extends Application {
 							gameplay.getChildren().addAll(Environment.getTURect(),Environment.getTUText());
 							/*Needs to be completed
 							 * Needs Restart and main menu buttons*/
+							gameplay.getChildren().remove(gameTime.getShowLimit());
+							gameTime.setTimeLimit(0);
+							gameTime.doGameTime();
+							gameplay.getChildren().add(gameTime.getShowLimit());
 						}
 				}
 			}
@@ -472,6 +477,10 @@ public class Main extends Application {
 //					        }
 // 						}
 					}
+					//Score display
+					gameplay.getChildren().remove(Environment.getScoreTxt());
+					Environment.makeScoreText();
+					gameplay.getChildren().add(Environment.getScoreTxt());
 					
 					//update visuals
 					gameGraphics.clearRect(0, 0, 1024, 768);
@@ -490,13 +499,6 @@ public class Main extends Application {
 							gameGraphics.drawImage(multiTwoSprite, multiTwo.getXPos() + leftOffset, multiTwo.getYPos() + topOffset);
 						}
 					}
-					
-//					if (gameTime.getSecCount() > 124) {
-//						if (gameTime.getSecCount() == 125) {
-//							Environment.setState(30);
-//						}
-//					}
-					
 				}
 			}
 		}.start();

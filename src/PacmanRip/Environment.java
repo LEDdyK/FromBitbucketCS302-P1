@@ -113,8 +113,7 @@ public class Environment {
 	
 	//Score Display
 	public static void makeScoreText() {
-		scoreTxt = new Text(Environment.getScreenWidth()/4, 50, "Score = " + String.valueOf(Player.getScore()));
-		
+		scoreTxt = new Text(Environment.getScreenWidth()/4, 50, "Score = " + Integer.toString(Player.getScore()));
 	}
 	
 	//Pause Screen
