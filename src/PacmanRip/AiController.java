@@ -1,39 +1,31 @@
 package PacmanRip;
 
 public class AiController {
-	
-	public static void controlMom(Enemy mom, Player player) {
-		int xDif = player.getXPos() - mom.getXPos();
-		int yDif = player.getYPos() - mom.getYPos();
-		
-		//chase: type 1
-		if (Math.abs(xDif) >= Math.abs(yDif)) {
-			mom.setXVel(xDif/Math.abs(xDif));
-			mom.setYVel(0);
+	public static void controlEnemy(Enemy enemy, Player player, int[][] map, int tileDim, int targetX, int targetY) {
+		int[] intersectPos = new int[2];
+		int[] target = new int[] {targetX, targetY};
+		//act when tileSize away from turn tile coming from horizontal direction
+		if (((map[enemy.getYPos()/tileDim][(enemy.getXPos() + enemy.getXVel() * tileDim)/tileDim] == 2) || (map[enemy.getYPos()/tileDim][(enemy.getXPos() + enemy.getXVel() * tileDim)/tileDim] == 6)) && (enemy.getXVel() != 0) && (enemy.getXPos() % tileDim == 0) && (enemy.getYPos() % tileDim == 0)) {
+			intersectPos[0] = enemy.getXPos() + enemy.getXVel() * tileDim;
+			intersectPos[1] = enemy.getYPos();
+			//find available directions
+			enemy.setAvailDir(map, tileDim);
+			//set the next direction
+			enemy.setNextDir(enemy.getAvailDir(), intersectPos, target, tileDim);
 		}
-		else {
-			mom.setXVel(0);
-			mom.setYVel(yDif/Math.abs(yDif));
+		//act when (tileSize) away from turn tile coming from vertical direction
+		else if (((map[(enemy.getYPos() + enemy.getYVel() * tileDim)/tileDim][enemy.getXPos()/tileDim] == 2) || (map[(enemy.getYPos() + enemy.getYVel() * tileDim)/tileDim][enemy.getXPos()/tileDim] == 6)) && (enemy.getYVel() != 0) && (enemy.getXPos() % tileDim == 0) && (enemy.getYPos() % tileDim == 0)) {
+			intersectPos[0] = enemy.getXPos();
+			intersectPos[1] = enemy.getYPos() + enemy.getYVel() * tileDim;
+			//find available directions
+			enemy.setAvailDir(map, tileDim);
+			//set next direction
+			enemy.setNextDir(enemy.getAvailDir(), intersectPos, target, tileDim);
 		}
-		mom.setXPos(mom.getXPos() + (mom.getXVel() * 1));
-		mom.setYPos(mom.getYPos() + (mom.getYVel() * 1));
+		//act when on a turn tile
+		else if (((map[enemy.getYPos()/tileDim][enemy.getXPos()/tileDim] == 2) || (map[enemy.getYPos()/tileDim][enemy.getXPos()/tileDim] == 6)) && (enemy.getXPos() % tileDim == 0) && (enemy.getYPos() % tileDim == 0)) {
+			enemy.changeDir(enemy.getNextDir());
+		}
+		enemy.move();
 	}
-	
-	public static void controlTeacher(Enemy teacher, Player player) {
-		int xDif = player.getXPos() - teacher.getXPos();
-		int yDif = player.getYPos() - teacher.getYPos();
-		
-		//chase: type 1
-		if (Math.abs(xDif) >= Math.abs(yDif)) {
-			teacher.setXVel(xDif/Math.abs(xDif));
-			teacher.setYVel(0);
-		}
-		else {
-			teacher.setXVel(0);
-			teacher.setYVel(yDif/Math.abs(yDif));
-		}
-		teacher.setXPos(teacher.getXPos() + (teacher.getXVel() * 1));
-		teacher.setYPos(teacher.getYPos() + (teacher.getYVel() * 1));
-	}
-
 }

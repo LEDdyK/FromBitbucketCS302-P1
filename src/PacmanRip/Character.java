@@ -5,16 +5,20 @@ public abstract class Character {
 	//ids: 1 = player1, 2 = player2, 3 = player3, 4 = NPC1, 5 = NPC2, 6 = NPC3, 7 = NPC4
 	protected int id;
 	protected int xPos, yPos;
+	//should be direction instead velocity
 	protected int xVel, yVel;
+	protected String Direction;
+	protected int velMag;
 	protected int ticker;
 	
 	//Constructor
-	public Character(int id, int xPos, int yPos, int xVel, int yVel) {
+	public Character(int id, int xPos, int yPos, int xVel, int yVel, int velMag) {
 		this.id = id;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.xVel = xVel;
 		this.yVel = yVel;
+		this.velMag = velMag;
 	}
 	
 	//actions per tick
@@ -36,6 +40,9 @@ public abstract class Character {
 	public int getYVel() {
 		return yVel;
 	}
+	public int getVelMag() {
+		return velMag;
+	}
 	public int getTick() {
 		return ticker;
 	}
@@ -56,8 +63,15 @@ public abstract class Character {
 	public void setYVel(int yVel) {
 		this.yVel = yVel;
 	}
+	public void setVelMag(int velMag) {
+		this.velMag = velMag;
+	}
 	public void setTick(int ticker) {
 		this.ticker = ticker;
 	}
-
+	
+	public void move() {
+		xPos = (xPos + (xVel * velMag));
+		yPos = (yPos + (yVel * velMag));
+	}
 }
