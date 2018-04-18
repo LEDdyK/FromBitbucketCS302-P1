@@ -105,23 +105,33 @@ public class Main extends Application {
 		pacman.setYTile(1);
 		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
-		
-		Player multiOne = new Player(1, mapScale, mapScale, 0, 0, 1);
+		Player multiOne = new Player(1, mapScale, mapScale*2, 0, 0, 1);
 		multiOne.setXTile(1);
 		multiOne.setYTile(1);
 		multiOne.Direction = "DOWN";
 		Image multiOneSprite = new Image("M1.png");
-		
-		Player multiTwo = new Player(1, mapScale, mapScale, 0, 0, 1);
+		Player multiTwo = new Player(1, mapScale, mapScale*3, 0, 0, 1);
 		multiTwo.setXTile(1);
 		multiTwo.setYTile(1);
-		multiTwo.Direction = "RIGHT";
+		multiTwo.Direction = "DOWN";
 		Image multiTwoSprite = new Image("M2.png");
 		
-		Enemy blinky = new Enemy(7, mapScale, mapScale, 0, 0, 1);
+		Enemy blinky = new Enemy(7, mapScale*2, mapScale, 1, 0, 1);
 		Image circleE = new Image("circle.png");
 		//set enemy AI mode
 		blinky.setMode(1);
+		Enemy pinky = new Enemy(7, mapScale*3, mapScale, 1, 0, 1);
+		Image circleP = new Image("circle.png");
+		//set enemy AI mode
+		pinky.setMode(1);
+		Enemy inky = new Enemy(7, mapScale*4, mapScale, 1, 0, 1);
+		Image circleI = new Image("circle.png");
+		//set enemy AI mode
+		inky.setMode(1);
+		Enemy clyde = new Enemy(7, mapScale*5, mapScale, 1, 0, 1);
+		Image circleC = new Image("circle.png");
+		//set enemy AI mode
+		clyde.setMode(1);
 		
 		//actions upon key press on welcome screen
 		screens[0].setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -457,6 +467,13 @@ public class Main extends Application {
 						
 						//update AI
 						AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+						AiController.controlEnemy(pinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+						if (Environment.playerCount < 3) {
+							AiController.controlEnemy(inky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+							if (Environment.playerCount == 1) {
+								AiController.controlEnemy(clyde, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
+							}
+						}
 //						gameplay.getChildren().remove(Environment.getScoreTxt());
 
 						//printing map to check proper labelling of points
@@ -472,6 +489,13 @@ public class Main extends Application {
 					gameGraphics.clearRect(0, 0, 1024, 768);
 					gameGraphics.drawImage(circle, pacman.getXPos() + leftOffset, pacman.getYPos() + topOffset);
 					gameGraphics.drawImage(circleE, blinky.getXPos() + leftOffset, blinky.getYPos() + topOffset);
+					gameGraphics.drawImage(circleP, pinky.getXPos() + leftOffset, pinky.getYPos() + topOffset);
+					if (Environment.playerCount < 3) {
+						gameGraphics.drawImage(circleI, inky.getXPos() + leftOffset, inky.getYPos() + topOffset);
+						if (Environment.playerCount == 1) {
+							gameGraphics.drawImage(circleC, clyde.getXPos() + leftOffset, clyde.getYPos() + topOffset);
+						}
+					}
 					if (Environment.playerCount > 1) {
 						gameGraphics.drawImage(multiOneSprite, multiOne.getXPos() + leftOffset, multiOne.getYPos() + topOffset);
 						if (Environment.playerCount == 3) {
