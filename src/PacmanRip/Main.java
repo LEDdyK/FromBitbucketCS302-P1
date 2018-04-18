@@ -55,7 +55,7 @@ public class Main extends Application {
 		{1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
-	static int mapScale = 22;
+	int mapScale = 22;
 	
 	private void setMapValue(int YTile, int XTile, int value) {
 		map[YTile][XTile] = value;
@@ -102,8 +102,8 @@ public class Main extends Application {
 		
 		//game objects
 		//game character constructors (ID, xPos, yPos, xVel, yVel, velMag)
-		Player pacman = new Player(1, mapScale+44, mapScale, 0, 0, 1);
-		pacman.setXTile(1);
+		Player pacman = new Player(1, mapScale*5, mapScale, 1, 0, 1);
+		pacman.setXTile(5);
 		pacman.setYTile(1);
 		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
@@ -380,14 +380,14 @@ public class Main extends Application {
 							if (Player.getLives() == 0) {
 								//Game Over Screen
 							}
-							Timer.resetCountdown();
+							gameTime.resetCountdown();
 							Player.decrementLife();
 							System.out.println("lost life");
 							System.out.println(Player.getLives());
 							pacman.resetVel();
 							blinky.resetVel();
-							pacman.resetPacPos();
-							blinky.resetGPos();
+							pacman.resetPacPos(mapScale);
+							blinky.resetGPos(mapScale);
 							
 							
 							Environment.setState(5);
