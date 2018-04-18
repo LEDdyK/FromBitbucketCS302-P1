@@ -107,6 +107,19 @@ public class Main extends Application {
 		pacman.setYTile(1);
 		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
+		
+		Player multiOne = new Player(1, mapScale, mapScale, 0, 0, 1);
+		multiOne.setXTile(1);
+		multiOne.setYTile(1);
+		multiOne.Direction = "DOWN";
+		Image multiOneSprite = new Image("M1.png");
+		
+		Player multiTwo = new Player(1, mapScale, mapScale, 0, 0, 1);
+		multiTwo.setXTile(1);
+		multiTwo.setYTile(1);
+		multiTwo.Direction = "RIGHT";
+		Image multiTwoSprite = new Image("M2.png");
+		
 		Enemy blinky = new Enemy(7, mapScale, mapScale, 0, 0, 1);
 		Image circleE = new Image("circle.png");
 		//set enemy AI mode
@@ -139,6 +152,7 @@ public class Main extends Application {
 				switch(e.getCode().toString()) {
 					case "ENTER":
 						stage.setScene(screens[Environment.switchGame()]);
+						Environment.playerCount = Environment.getOptionHover();
 						break;
 					case "UP":
 						Environment.highlightUp(Environment.getModeOptions());
@@ -211,6 +225,58 @@ public class Main extends Application {
 					case "RIGHT":
 						if (Environment.getState() == 5) {
 							pacman.Direction = "RIGHT";
+						}
+						else if (Environment.getState() == 7) {
+							Environment.escToggle();
+						}
+						break;
+					case "W":
+						if (Environment.getState() == 5) {
+							multiOne.Direction = "UP";
+						}
+						break;
+					case "S":
+						if (Environment.getState() == 5) {
+							multiOne.Direction = "DOWN";
+						}
+						break;
+					case "A":
+						if (Environment.getState() == 5) {
+							multiOne.Direction = "LEFT";
+						}
+						else if (Environment.getState() == 7) {
+							Environment.escToggle();
+						}
+						break;
+					case "D":
+						if (Environment.getState() == 5) {
+							multiOne.Direction = "RIGHT";
+						}
+						else if (Environment.getState() == 7) {
+							Environment.escToggle();
+						}
+						break;
+					case "I":
+						if (Environment.getState() == 5) {
+							multiTwo.Direction = "UP";
+						}
+						break;
+					case "K":
+						if (Environment.getState() == 5) {
+							multiTwo.Direction = "DOWN";
+						}
+						break;
+					case "J":
+						if (Environment.getState() == 5) {
+							multiTwo.Direction = "LEFT";
+						}
+						else if (Environment.getState() == 7) {
+							Environment.escToggle();
+						}
+						break;
+					case "L":
+						if (Environment.getState() == 5) {
+							multiTwo.Direction = "RIGHT";
 						}
 						else if (Environment.getState() == 7) {
 							Environment.escToggle();
@@ -363,6 +429,34 @@ public class Main extends Application {
 						}
 						pacman.move();
 						
+
+						if (Environment.playerCount > 1) {
+							multiOne.updateTilePos(mapScale);
+							if ((map[multiOne.getYTile()][multiOne.getXTile()] == 2 || map[multiOne.getYTile()][multiOne.getXTile()] == 6) && (multiOne.getXPos() % mapScale == 0) && (multiOne.getYPos() % mapScale == 0)) {
+								multiOne.updateDirection(map);
+							}
+							if ((multiOne.getXTile() == 0) && (multiOne.getXPos() % mapScale == 0) && (multiOne.getYPos() % mapScale == 0)) {
+								multiOne.setXPos((map[0].length - 1) * mapScale - 1);
+							}						
+							else if ((multiOne.getXTile() == (map[0].length-1)) && (multiOne.getXPos() % mapScale == 0) && (multiOne.getYPos() % mapScale == 0)) {
+								multiOne.setXPos(1);
+							}
+							multiOne.move();
+							if (Environment.playerCount == 3) {
+								multiTwo.updateTilePos(mapScale);
+								if ((map[multiTwo.getYTile()][multiTwo.getXTile()] == 2 || map[multiTwo.getYTile()][multiTwo.getXTile()] == 6) && (multiTwo.getXPos() % mapScale == 0) && (multiTwo.getYPos() % mapScale == 0)) {
+									multiTwo.updateDirection(map);
+								}
+								if ((multiTwo.getXTile() == 0) && (multiTwo.getXPos() % mapScale == 0) && (multiTwo.getYPos() % mapScale == 0)) {
+									multiTwo.setXPos((map[0].length - 1) * mapScale - 1);
+								}						
+								else if ((multiTwo.getXTile() == (map[0].length-1)) && (multiTwo.getXPos() % mapScale == 0) && (multiTwo.getYPos() % mapScale == 0)) {
+									multiTwo.setXPos(1);
+								}
+								multiTwo.move();
+							}
+						}
+						
 						//update AI
 						AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
 //						gameplay.getChildren().remove(Environment.getScoreTxt());
@@ -380,6 +474,12 @@ public class Main extends Application {
 					gameGraphics.clearRect(0, 0, 1024, 768);
 					gameGraphics.drawImage(circle, pacman.getXPos() + leftOffset, pacman.getYPos() + topOffset);
 					gameGraphics.drawImage(circleE, blinky.getXPos() + leftOffset, blinky.getYPos() + topOffset);
+					if (Environment.playerCount > 1) {
+						gameGraphics.drawImage(multiOneSprite, multiOne.getXPos() + leftOffset, multiOne.getYPos() + topOffset);
+						if (Environment.playerCount == 3) {
+							gameGraphics.drawImage(multiTwoSprite, multiTwo.getXPos() + leftOffset, multiTwo.getYPos() + topOffset);
+						}
+					}
 				}
 			}
 		}.start();
