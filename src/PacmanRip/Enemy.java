@@ -65,37 +65,37 @@ public class Enemy extends Character{
 	public void setAvailDir(int[][] map, int tileDim) {
 		if (xVel != 0) {
 			//up
-			if (map[(yPos - tileDim)/tileDim][(xPos + xVel * tileDim)/tileDim] == 0) {
+			if (map[(yPos - tileDim)/tileDim][(xPos + xVel * tileDim)/tileDim] != 1) {
 				availDir[0] = true;
 			} else availDir[0] = false;
 			//down
-			if (map[(yPos + tileDim)/tileDim][(xPos + xVel * tileDim)/tileDim] == 0) {
+			if (map[(yPos + tileDim)/tileDim][(xPos + xVel * tileDim)/tileDim] != 1) {
 				availDir[1] = true;
 			} else availDir[1] = false;
 			//left
-			if ((map[yPos/tileDim][(xPos + xVel * tileDim - tileDim)/tileDim] == 0) && (xVel != 1)) {
+			if ((map[yPos/tileDim][(xPos + xVel * tileDim - tileDim)/tileDim] != 1) && (xVel != 1)) {
 				availDir[2] = true;
 			} else availDir[2] = false;
 			//right
-			if ((map[yPos/tileDim][(xPos + xVel * tileDim + tileDim)/tileDim] == 0) && (xVel != -1)) {
+			if ((map[yPos/tileDim][(xPos + xVel * tileDim + tileDim)/tileDim] != 1) && (xVel != -1)) {
 				availDir[3] = true;
 			} else availDir[3] = false;
 		}
 		else {
 			//up
-			if ((map[(yPos + yVel * tileDim - tileDim)/tileDim][xPos/tileDim] == 0) && (yVel != 1)) {
+			if ((map[(yPos + yVel * tileDim - tileDim)/tileDim][xPos/tileDim] != 1) && (yVel != 1)) {
 				availDir[0] = true;
 			} else availDir[0] = false;
 			//down
-			if ((map[(yPos + yVel * tileDim + tileDim)/tileDim][xPos/tileDim] == 0) && (yVel != -1)) {
+			if ((map[(yPos + yVel * tileDim + tileDim)/tileDim][xPos/tileDim] != 1) && (yVel != -1)) {
 				availDir[1] = true;
 			} else availDir[1] = false;
 			//left
-			if (map[(yPos + yVel * tileDim)/tileDim][(xPos - tileDim)/tileDim] == 0) {
+			if (map[(yPos + yVel * tileDim)/tileDim][(xPos - tileDim)/tileDim] != 1) {
 				availDir[2] = true;
 			} else availDir[2] = false;
 			//right
-			if (map[(yPos + yVel * tileDim)/tileDim][(xPos + tileDim)/tileDim] == 0) {
+			if (map[(yPos + yVel * tileDim)/tileDim][(xPos + tileDim)/tileDim] != 1) {
 				availDir[3] = true;
 			} else availDir[3] = false;
 		}
