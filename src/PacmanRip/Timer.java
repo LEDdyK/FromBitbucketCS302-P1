@@ -58,6 +58,21 @@ public class Timer {
 	public void endCountdown() {
 		secCount = 125;
 	}
+	public void resetSecCount() {
+		secCount = 0;
+	}
+	public void resetFrameCount() {
+		frameCount = 0;
+	}
+	
+	public void resetAllTime() {
+		setTimeLimit(120);
+		doGameTime();
+		resetCountdown();
+		resetSecCount();
+		resetFrameCount();
+		setTrans(true);
+	}
 	
 	public void doCountdown() {
 		if (countdownValue == 4) {

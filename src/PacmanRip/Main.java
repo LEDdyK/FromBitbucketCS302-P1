@@ -132,6 +132,25 @@ public class Main extends Application {
 		//set enemy AI mode
 		clyde.setMode(1);
 		
+		//make map objects
+		Environment.initFoodArray(map.length, map[0].length);
+		Environment.initWallArray(map.length, map[0].length);
+		Environment.makeWalls(map, mapScale, mapScale, mapScale, leftOffset, topOffset);
+		//Loops to implement map
+		for(int i=0; i<map.length; i++) {
+	        for(int j=0; j<map[0].length; j++) {
+	            if (map[i][j] == 1) {
+	            	gameplay.getChildren().add(Environment.wallArray[i][j]);
+	            }
+	        }
+		}
+		
+		//make time objects
+		Timer gameTime = new Timer();
+		gameTime.resetAllTime();
+		gameplay.getChildren().add(gameTime.getCountdownText());
+		gameplay.getChildren().add(gameTime.getShowLimit());
+		
 		//actions upon key press on welcome screen
 		screens[0].setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -158,8 +177,39 @@ public class Main extends Application {
 			public void handle(KeyEvent e) {
 				switch(e.getCode().toString()) {
 					case "ENTER":
-						stage.setScene(screens[Environment.switchGame()]);
+						//reset game
+						//reset tiles to 0's and 2's
+						for(int i=0; i<map.length; ++i) {
+					        for(int j=0; j<map[0].length; ++j) {
+					        	if (map[i][j] == 5) {
+					        		setMapValue(i ,j ,0);
+					        	}
+					        	else if(map[i][j] == 6) {
+					        		setMapValue(i ,j ,2);
+					        	}
+					        	//if from a previous game there was food leftover, clean it up
+					        	else if (map[i][j] == 0 || map[i][j] == 2) {
+					            	gameplay.getChildren().remove(Environment.foodArray[i][j]);
+					        	}
+					        }
+						}
+						//makeFood
+						Environment.makeFood(map, mapScale, mapScale, mapScale, leftOffset, topOffset);
+						for(int i=0; i<map.length; ++i) {
+					        for(int j=0; j<map[0].length; ++j) {
+								if (map[i][j] == 0 || map[i][j] == 2) {
+					            	gameplay.getChildren().add(Environment.foodArray[i][j]);
+								}
+					        }
+				        }
+						//reset time
+						gameplay.getChildren().remove(gameTime.getCountdownText());
+						gameplay.getChildren().remove(gameTime.getShowLimit());
+						gameTime.resetAllTime();
+						gameplay.getChildren().add(gameTime.getCountdownText());
+						gameplay.getChildren().add(gameTime.getShowLimit());
 						Environment.setPlayerCount(Environment.getOptionHover());
+						stage.setScene(screens[Environment.switchGame()]);
 						break;
 					case "UP":
 						Environment.highlightUp(Environment.getModeOptions());
@@ -197,14 +247,6 @@ public class Main extends Application {
 				stage.setScene(screens[0]);
 			}
 		});		
-		
-		Timer gameTime = new Timer();
-		gameTime.resetCountdown();
-		gameTime.setTimeLimit(120);
-		gameTime.doGameTime();
-		gameplay.getChildren().add(gameTime.getCountdownText());
-		gameplay.getChildren().add(gameTime.getShowLimit());
-		gameTime.setTrans(true);
 		
 		//actions upon key press on gameplay screen
 		screens[5].setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -326,10 +368,14 @@ public class Main extends Application {
 								gameplay.getChildren().removeAll(Environment.geteScreenRect(2),Environment.geteScreenText(2));
 							}
 						}
+						else if (gameTime.getSecCount() > 124) {
+							Environment.setDefault();
+							stage.setScene(screens[0]);
+							gameplay.getChildren().removeAll(Environment.getTURect(),Environment.getTUText());
+						}
 						break;
 					case "PAGE_DOWN":
-						if (Environment.getState() == 5){
-							System.out.println("hhhhh");
+						if (Environment.getState() == 5 && gameTime.getSecCount() < 125){
 							gameTime.endCountdown();
 							gameplay.getChildren().addAll(Environment.getTURect(),Environment.getTUText());
 							/*Needs to be completed
@@ -338,25 +384,7 @@ public class Main extends Application {
 				}
 			}
 		});
-		Environment.initFoodArray(map.length, map[0].length);
-		Environment.initWallArray(map.length, map[0].length);
-		
-		Environment.makeFood(map, mapScale, mapScale, mapScale, leftOffset, topOffset);
-		Environment.makeWalls(map, mapScale, mapScale, mapScale, leftOffset, topOffset);
-		
-		//Loops to implement map
-		for(int i=0; i<map.length; i++) {
-	        for(int j=0; j<map[i].length; j++) {
-	            if (map[i][j] == 1) {
-	            	gameplay.getChildren().add(Environment.wallArray[i][j]);
-	            }
-	            else if (map[i][j] == 0 || map[i][j] == 2) {
-	            	gameplay.getChildren().add(Environment.foodArray[i][j]);
-	            }
-	        }
-		}
-		
-		
+				
 		//window dynamics: fps = 60
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
@@ -411,7 +439,6 @@ public class Main extends Application {
 						//warping player
 						pacman.warp(map, mapScale);
 						pacman.move();
-						
 
 						if (Environment.getPlayerCount() > 1) {
 							//update player 2
@@ -463,6 +490,13 @@ public class Main extends Application {
 							gameGraphics.drawImage(multiTwoSprite, multiTwo.getXPos() + leftOffset, multiTwo.getYPos() + topOffset);
 						}
 					}
+					
+//					if (gameTime.getSecCount() > 124) {
+//						if (gameTime.getSecCount() == 125) {
+//							Environment.setState(30);
+//						}
+//					}
+					
 				}
 			}
 		}.start();

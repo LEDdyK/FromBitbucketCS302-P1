@@ -289,7 +289,6 @@ public class Environment {
 		options[optionHover - 1].setFill(Color.PINK);
 	}
 	
-	
 	public static void initWallArray(int i, int j) {
 		wallArray = new Rectangle[i][j];
 	}
@@ -307,7 +306,6 @@ public class Environment {
 	            	wallYPos = i*wallHeight + topOffset;
 	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);//Creates walls
 	            	wallArray[i][j] = wall;
-//	            	gameplay.getChildren().add(wall);
 	            }
 	        }
 		}
@@ -323,7 +321,6 @@ public class Environment {
 	            	Rectangle food = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);//Creates food
 	            	food.setFill(Color.BLUE);
 	            	foodArray[i][j] = food;
-//	            	gameplay.getChildren().add(food);
 	        	}
 	        }
 		}
