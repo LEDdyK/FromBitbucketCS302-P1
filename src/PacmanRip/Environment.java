@@ -39,6 +39,11 @@ public class Environment {
 	//Times up Text
 	private static Text tUText;
 	
+	//food
+	private static Rectangle[][] food;
+	//walls
+	private static Rectangle[][] walls;
+	
 	//temporary placement of player count
 	private static int playerCount;
 	
@@ -284,5 +289,53 @@ public class Environment {
 		}
 		//set new highlight
 		options[optionHover - 1].setFill(Color.PINK);
+	}
+	//make walls
+//	int wallXPos = 0;
+//	int wallYPos = 0;
+//	for(int i=0; i<map.length; i++) {
+//		for(int j = 0; j<map[i].length; j++) {
+//			wallXPos = j*wallWidth + leftOffset;
+//			wallYPos = j*wallWidth + topOffset;
+//			Rectangle wallTemp = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);
+//			wall[i][j] = wallTemp;
+//		}
+//	}
+	
+	//initialise food
+	public void initFood(int i, int j) {
+		Rectangle[][] food = new Rectangle[i][j];
+	}
+	//initialise walls
+	public void initWalls(int i, int j) {
+		Rectangle[][] walls = new Rectangle[i][j];
+	}
+	
+	//make food
+	public void makeFood(int[][] map, int wallWidth, int wallHeight, int leftOffset, int topOffset, int mapScale) {
+		int foodXPos = 0;
+		int foodYPos = 0;
+		for(int i=0; i<map.length; i++) {
+			for(int j=0; j<map[i].length; j++) {
+				foodXPos = j*wallWidth + leftOffset;
+	        	foodYPos = i*wallHeight + topOffset;
+	        	Rectangle foodTemp = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);
+	        	foodTemp.setFill(Color.BLUE);
+	        	food[i][j] = foodTemp;
+			}
+		}
+	}
+	//make walls
+	public void makeWalls(int[][] map, int wallWidth, int wallHeight, int topOffset, int leftOffset, int mapScale) {
+		int wallXPos = 0;
+		int wallYPos = 0;
+		for(int i=0; i<map.length; i++) {
+			for(int j = 0; j<map[i].length; j++) {
+				wallXPos = j*wallWidth + leftOffset;
+				wallYPos = j*wallWidth + topOffset;
+				Rectangle wallTemp = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);
+				walls[i][j] = wallTemp;
+			}
+		}
 	}
 }

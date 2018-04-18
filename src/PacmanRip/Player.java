@@ -107,4 +107,17 @@ public class Player extends Character {
 				break;
 		}
 	}
+	public void doEverything(int[][] map, int mapScale) {
+		updateTilePos(mapScale);
+		if ((map[getYTile()][getXTile()] == 2 || map[getYTile()][getXTile()] == 6) && checkExact(mapScale)) {
+			updateDirection(map);
+		}
+		if ((getXTile() == 0) && checkExact(mapScale)) {
+			setXPos((map[0].length - 1) * mapScale - getVelMag());
+		}						
+		else if ((getXTile() == (map[0].length-1)) && checkExact(mapScale)) {
+			setXPos(getVelMag());
+		}
+		move();
+	}
 }

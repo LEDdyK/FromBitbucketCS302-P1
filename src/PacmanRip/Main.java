@@ -367,7 +367,29 @@ public class Main extends Application {
 	            }
 	        }
 		}
-		
+		//make walls
+//		int wallXPos = 0;
+//		int wallYPos = 0;
+//		for(int i=0; i<map.length; i++) {
+//			for(int j = 0; j<map[i].length; j++) {
+//				wallXPos = j*wallWidth + leftOffset;
+//				wallYPos = j*wallWidth + topOffset;
+//				Rectangle wallTemp = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);
+//				wall[i][j] = wallTemp;
+//			}
+//		}
+		//make food
+//		int foodXPos = 0;
+//		int foodYPos = 0;
+//		for(int i=0; i<map.length; i++) {
+//			for(int j=0; j<map[i].length; j++) {
+//				foodXPos = j*wallWidth + leftOffset;
+//            	foodYPos = i*wallHeight + topOffset;
+//            	Rectangle foodTemp = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);
+//            	foodTemp.setFill(Color.BLUE);
+//            	food[i][j] = foodTemp;
+//			}
+//		}
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
@@ -387,7 +409,7 @@ public class Main extends Application {
 						//remove the countdown text which should be displaying "GO!"
 						gameplay.getChildren().remove(gameTime.getCountdownText());
 					}
-					//if countdown is finished (should have finished after 5 seconds, allow movement. Movement stops after 2mins.
+					//if countdown is finished (should have finished after 5 seconds), allow movement. Movement stops after 2mins.
 					if ((gameTime.getSecCount() > 4) && (gameTime.getSecCount() < 125)) {
 						//update timer
 						if (gameTime.getTrans()) {
@@ -403,9 +425,6 @@ public class Main extends Application {
 						if ((map[pacman.getYTile()][pacman.getXTile()] == 2 || map[pacman.getYTile()][pacman.getXTile()] == 6) && pacman.checkExact(mapScale)) {
 							pacman.updateDirection(map);
 						}
-//						gameplay.getChildren().remove(Environment.getScoreTxt());
-//						Environment.makeScoreText(); //updates getScoreTxt
-//						System.out.print(map[pacman.getYTile()][pacman.getXTile()]);
 						//Eating food, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 0) {
 							Player.incrementScore();
@@ -415,7 +434,6 @@ public class Main extends Application {
 			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
 			            	dfood.setFill(Color.WHITE);
 			            	gameplay.getChildren().add(dfood);
-//			            	gameplay.getChildren().add(Environment.getScoreTxt());
 						}
 						//Eating food at intersections, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
@@ -426,92 +444,33 @@ public class Main extends Application {
 			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
 			            	dfood.setFill(Color.WHITE);
 			            	gameplay.getChildren().add(dfood);
-//			            	gameplay.getChildren().add(Environment.getScoreTxt());
 						}
-						//warping player
-						if ((pacman.getXTile() == 0) && pacman.checkExact(mapScale)) {
-							pacman.setXPos((map[0].length - 1) * mapScale - pacman.getVelMag());
-						}						
-						else if ((pacman.getXTile() == (map[0].length-1)) && pacman.checkExact(mapScale)) {
-							pacman.setXPos(pacman.getVelMag());
-						}
+						pacman.warp(map, mapScale);
 						pacman.move();
 						
-
+						//update multiplayer
 						if (Environment.getPlayerCount() > 1) {
 							//update player 2
-							multiOne.updateTilePos(mapScale);
-							if ((map[multiOne.getYTile()][multiOne.getXTile()] == 2 || map[multiOne.getYTile()][multiOne.getXTile()] == 6) && multiOne.checkExact(mapScale)) {
-								multiOne.updateDirection(map);
-							}
-							//warp control
-							if ((multiOne.getXTile() == 0) && multiOne.checkExact(mapScale)) {
-								multiOne.setXPos((map[0].length - 1) * mapScale - multiOne.getVelMag());
-							}						
-							else if ((multiOne.getXTile() == (map[0].length-1)) && multiOne.checkExact(mapScale)) {
-								multiOne.setXPos(multiOne.getVelMag());
-							}
-							multiOne.move();
+							multiOne.doEverything(map, mapScale);
 							//update player 3
 							if (Environment.getPlayerCount() == 3) {
-								//warp control
-								multiTwo.updateTilePos(mapScale);
-								if ((map[multiTwo.getYTile()][multiTwo.getXTile()] == 2 || map[multiTwo.getYTile()][multiTwo.getXTile()] == 6) && multiTwo.checkExact(mapScale)) {
-									multiTwo.updateDirection(map);
-								}
-								if ((multiTwo.getXTile() == 0) && multiTwo.checkExact(mapScale)) {
-									multiTwo.setXPos((map[0].length - 1) * mapScale - multiTwo.getVelMag());
-								}						
-								else if ((multiTwo.getXTile() == (map[0].length-1)) && multiTwo.checkExact(mapScale)) {
-									multiTwo.setXPos(multiTwo.getVelMag());
-								}
-								multiTwo.move();
+								multiTwo.doEverything(map, mapScale);
 							}
 						}
 						
 						//update AI
 						AiController.controlEnemy(blinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
-						//warping AI
-						if ((blinky.getXPos()/mapScale == 0) && blinky.checkExact(mapScale)) {
-							blinky.setXPos((map[0].length - 1) * mapScale - blinky.getVelMag());
-						}						
-						else if ((blinky.getXPos()/mapScale == (map[0].length-1)) && blinky.checkExact(mapScale)) {
-							blinky.setXPos(blinky.getVelMag());
-						}
+						blinky.warp(map, mapScale);
 						AiController.controlEnemy(pinky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
-						if ((pinky.getXPos()/mapScale == 0) && pinky.checkExact(mapScale)) {
-							pinky.setXPos((map[0].length - 1) * mapScale - pinky.getVelMag());
-						}						
-						else if ((pinky.getXPos()/mapScale == (map[0].length-1)) && pinky.checkExact(mapScale)) {
-							pinky.setXPos(pinky.getVelMag());
-						}
+						pinky.warp(map, mapScale);
 						if (Environment.getPlayerCount() < 3) {
 							AiController.controlEnemy(inky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
-							if ((inky.getXPos()/mapScale == 0) && inky.checkExact(mapScale)) {
-								inky.setXPos((map[0].length - 1) * mapScale - inky.getVelMag());
-							}						
-							else if ((inky.getXPos()/mapScale == (map[0].length-1)) && inky.checkExact(mapScale)) {
-								inky.setXPos(inky.getVelMag());
-							}
+							inky.warp(map, mapScale);
 							if (Environment.getPlayerCount() == 1) {
 								AiController.controlEnemy(clyde, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
-								if ((clyde.getXPos()/mapScale == 0) && clyde.checkExact(mapScale)) {
-									clyde.setXPos((map[0].length - 1) * mapScale - clyde.getVelMag());
-								}						
-								else if ((clyde.getXPos()/mapScale == (map[0].length-1)) && clyde.checkExact(mapScale)) {
-									clyde.setXPos(clyde.getVelMag());
-								}
+								clyde.warp(map, mapScale);
 							}
 						}
-//						gameplay.getChildren().remove(Environment.getScoreTxt());
-
-						//printing map to check proper labelling of points
-//						for(int i=0; i<map.length; i++) {
-//							System.out.println();
-//					        for(int j=0; j<map[i].length; j++) {
-//					        	System.out.print(map[i][j]);
-//					        }
-// 						}
 					}
 					
 					//update visuals

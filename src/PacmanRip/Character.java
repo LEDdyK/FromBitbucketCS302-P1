@@ -91,4 +91,13 @@ public abstract class Character {
 	public boolean checkExact(int mapScale) {
 		return((xPos % mapScale == 0) && (yPos % mapScale == 0));
 	}
+	
+	public void warp(int[][] map, int mapScale) {
+		if ((getXPos()/mapScale == 0) && checkExact(mapScale)) {
+			setXPos((map[0].length - 1) * mapScale - getVelMag());
+		}						
+		else if ((getXPos()/mapScale == (map[0].length-1)) && checkExact(mapScale)) {
+			setXPos(getVelMag());
+		}
+	}
 }
