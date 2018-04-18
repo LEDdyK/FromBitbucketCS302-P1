@@ -83,6 +83,22 @@ public abstract class Character {
 	public void setYTile(int Y) {
 		this.yTile = Y;
 	}
+//=======
+	public void resetPacPos(int x, int y, int mapScale) {
+		this.xPos = x * mapScale;
+		this.yPos = y * mapScale;
+		this.xTile = x;
+		this.yTile = y;
+	}
+	public void resetGPos(int mapScale) {
+		this.xPos = mapScale;
+		this.yPos = mapScale;		
+	}
+	public void resetVel() {
+		this.xVel = 0;
+		this.yVel = 0;
+	}
+//>>>>>>> map
 	
 	public void move() {
 		xPos = (xPos + (xVel * velMag));

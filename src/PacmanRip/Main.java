@@ -99,9 +99,9 @@ public class Main extends Application {
 		
 		//game objects
 		//game character constructors (ID, xPos, yPos, xVel, yVel, velMag)
-		Player pacman = new Player(1, mapScale, mapScale, 0, 0, 2);
-		pacman.setXTile(1);
-		pacman.setYTile(1);
+		Player pacman = new Player(1, mapScale*13, mapScale*23, 1, 0, 2);
+		pacman.setXTile(13);
+		pacman.setYTile(23);
 		pacman.Direction = "RIGHT";
 		Image circle = new Image("circle.png");
 		Player multiOne = new Player(1, mapScale, mapScale*2, 0, 0, 2);
@@ -209,6 +209,12 @@ public class Main extends Application {
 						gameplay.getChildren().add(gameTime.getCountdownText());
 						gameplay.getChildren().add(gameTime.getShowLimit());
 						pacman.setScore(0);
+						pacman.resetPacPos(13, 23, mapScale);
+						pacman.setXVel(1);
+						pacman.setYVel(0);
+						pacman.Direction = "RIGHT";
+						pacman.setLives(3);
+						pacman.resetAll(true, mapScale);
 						Environment.setPlayerCount(Environment.getOptionHover());
 						stage.setScene(screens[Environment.switchGame()]);
 						break;
@@ -379,8 +385,6 @@ public class Main extends Application {
 						if (Environment.getState() == 5 && gameTime.getSecCount() < 125){
 							gameTime.endCountdown();
 							gameplay.getChildren().addAll(Environment.getTURect(),Environment.getTUText());
-							/*Needs to be completed
-							 * Needs Restart and main menu buttons*/
 							gameplay.getChildren().remove(gameTime.getShowLimit());
 							gameTime.setTimeLimit(0);
 							gameTime.doGameTime();
@@ -389,7 +393,7 @@ public class Main extends Application {
 				}
 			}
 		});
-				
+		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
 			public void handle(long currentNanoTime) {
@@ -397,19 +401,20 @@ public class Main extends Application {
 					//frame counter
 					gameTime.countFrames(60);
 					//countdown: Ready? -> 3 -> 2 -> 1 -> GO!
-					if (gameTime.getTrans() && (gameTime.getSecCount() < 5)) {
+					if (gameTime.getTrans() && (gameTime.getSecCount() < 5 || (pacman.justDied() && gameTime.getCountdownVal() > -1))) {
 						//update countdown by removing countdown text, updating value, an re-adding text
 						gameplay.getChildren().remove(gameTime.getCountdownText());
 						gameTime.doCountdown();
 						gameplay.getChildren().add(gameTime.getCountdownText());
 					}
 					//final line of countdown: "GO!"
-					else if (gameTime.getTrans() && (gameTime.getSecCount() == 5)) {
+					else if (gameTime.getTrans() && (gameTime.getSecCount() == 5 || (pacman.justDied() && gameTime.getCountdownVal() == -1))) {
 						//remove the countdown text which should be displaying "GO!"
 						gameplay.getChildren().remove(gameTime.getCountdownText());
+						pacman.resetDead();
 					}
 					//if countdown is finished (should have finished after 5 seconds, allow movement. Movement stops after 2mins.
-					if ((gameTime.getSecCount() > 4) && (gameTime.getSecCount() < 125)) {
+					if ((gameTime.getSecCount() > 4) && (gameTime.getTimeLimit() > -1) && !pacman.justDied()) {
 						//update timer
 						if (gameTime.getTrans()) {
 							//update the timer by removing timer text, updating value, and re-adding text
@@ -424,22 +429,17 @@ public class Main extends Application {
 						if ((map[pacman.getYTile()][pacman.getXTile()] == 2 || map[pacman.getYTile()][pacman.getXTile()] == 6) && pacman.checkExact(mapScale)) {
 							pacman.updateDirection(map);
 						}
-//						gameplay.getChildren().remove(Environment.getScoreTxt());
-//						Environment.makeScoreText(); //updates getScoreTxt
-//						System.out.print(map[pacman.getYTile()][pacman.getXTile()]);
 						//Eating food, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 0) {
 							Player.incrementScore();
 							setMapValue(pacman.getYTile(),pacman.getXTile(),5);
 			            	gameplay.getChildren().remove(Environment.foodArray[pacman.getYTile()][pacman.getXTile()]);
-//			            	gameplay.getChildren().add(Environment.getScoreTxt());
 						}
 						//Eating food at intersections, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
 							Player.incrementScore();
 							setMapValue(pacman.getYTile(),pacman.getXTile(),6);
 			            	gameplay.getChildren().remove(Environment.foodArray[pacman.getYTile()][pacman.getXTile()]);
-//			            	gameplay.getChildren().add(Environment.getScoreTxt());
 						}
 						//warping player
 						pacman.warp(map, mapScale);
@@ -462,20 +462,29 @@ public class Main extends Application {
 						if (Environment.getPlayerCount() < 3) {
 							AiController.controlEnemy(inky, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
 							inky.warp(map, mapScale);
+							if (AiController.collisionCheck(inky, pacman)) {
+								gameTime.resetCountdown();
+								Player.decrementLife();
+								pacman.resetAll(false, mapScale);
+								pacman.setDead();
+							}
 							if (Environment.getPlayerCount() == 1) {
 								AiController.controlEnemy(clyde, pacman, map, mapScale, pacman.getXPos(), pacman.getYPos());
 								clyde.warp(map, mapScale);
+								if (AiController.collisionCheck(clyde, pacman)) {
+									gameTime.resetCountdown();
+									Player.decrementLife();
+									pacman.resetAll(false, mapScale);
+									pacman.setDead();
+								}
 							}
 						}
-//						gameplay.getChildren().remove(Environment.getScoreTxt());
-
-						//printing map to check proper labelling of points
-//						for(int i=0; i<map.length; i++) {
-//							System.out.println();
-//					        for(int j=0; j<map[i].length; j++) {
-//					        	System.out.print(map[i][j]);
-//					        }
-// 						}
+						if (AiController.collisionCheck(blinky, pacman) || AiController.collisionCheck(pinky, pacman)) {
+							gameTime.resetCountdown();
+							Player.decrementLife();
+							pacman.resetAll(false, mapScale);
+							pacman.setDead();
+						}
 					}
 					//Score display
 					gameplay.getChildren().remove(Environment.getScoreTxt());

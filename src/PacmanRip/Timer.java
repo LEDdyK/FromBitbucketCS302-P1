@@ -114,4 +114,8 @@ public class Timer {
 		}
 	}
 	
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+	
 }

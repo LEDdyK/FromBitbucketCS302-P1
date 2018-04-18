@@ -3,6 +3,8 @@ package PacmanRip;
 public class Player extends Character {
 	private boolean toggle;
 	private static int score = 0;
+	private static int lives = 3;
+	private boolean dead = false;
 
 	public Player(int id, int xPos, int yPos, int xVel, int yVel, int velMag) {
 		super(id, xPos, yPos, xVel, yVel, velMag);
@@ -12,6 +14,18 @@ public class Player extends Character {
 	public static int getScore() {
 		return score;
 	}
+//<<<<<<< HEAD
+//=======
+	public static int getLives() {
+		return lives;
+	}
+//	public int getXTile() {
+//		return xTile;
+//	}
+//	public int getYTile() {
+//		return yTile;
+//	}
+//>>>>>>> map
 	public boolean getToggle() {
 		return toggle;
 	}
@@ -20,12 +34,27 @@ public class Player extends Character {
 	public void setScore(int Score) {
 		score = Score;
 	}
+//<<<<<<< HEAD
+//=======
+	public void setLives(int Lives) {
+		lives = Lives;
+	}
+//	public void setXTile(int X) {
+//		xTile = X;
+//	}
+//		public void setYTile(int Y) {
+//		yTile = Y;
+//	}
+//>>>>>>> map
 	public void setToggle(boolean T) {
 		toggle = T;
 	}
 	
 	public static void incrementScore() {
 		score = score+1;
+	}
+	public static void decrementLife() {
+		lives = lives-1;
 	}
 	
 	//call this function to update x and y tile positions and allow reverse
@@ -119,5 +148,24 @@ public class Player extends Character {
 			setXPos(getVelMag());
 		}
 		move();
+	}
+	public void resetDead() {
+		dead = false;
+	}
+	public void setDead() {
+		dead = true;
+	}
+	public boolean justDied() {
+		return dead;
+	}
+	public void resetAll(boolean condition, int mapScale) {
+		resetPacPos(13, 23, mapScale);
+		setXVel(1);
+		setYVel(0);
+		Direction = "RIGHT";
+		if (condition) {
+			setScore(0);
+			setLives(3);
+		}
 	}
 }
