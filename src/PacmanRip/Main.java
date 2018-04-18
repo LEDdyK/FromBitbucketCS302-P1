@@ -10,7 +10,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -197,7 +196,7 @@ public class Main extends Application {
 				Environment.setDefault();
 				stage.setScene(screens[0]);
 			}
-		});
+		});		
 		
 		Timer gameTime = new Timer();
 		gameTime.resetCountdown();
@@ -339,57 +338,24 @@ public class Main extends Application {
 				}
 			}
 		});
+		Environment.initFoodArray(map.length, map[0].length);
+		Environment.initWallArray(map.length, map[0].length);
 		
-		//wall dimensions
-		int wallWidth = mapScale;
-		int wallHeight = mapScale;
-		//wall position
-		int wallXPos = 0;
-		int wallYPos = 0;
-		//food position
-		int foodXPos = 0;
-		int foodYPos = 0;
+		Environment.makeFood(map, mapScale, mapScale, mapScale, leftOffset, topOffset);
+		Environment.makeWalls(map, mapScale, mapScale, mapScale, leftOffset, topOffset);
+		
 		//Loops to implement map
 		for(int i=0; i<map.length; i++) {
 	        for(int j=0; j<map[i].length; j++) {
 	            if (map[i][j] == 1) {
-	            	wallXPos = j*wallWidth + leftOffset;
-	            	wallYPos = i*wallHeight + topOffset;
-	            	Rectangle wall = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);//Creates walls
-	            	gameplay.getChildren().add(wall);
+	            	gameplay.getChildren().add(Environment.wallArray[i][j]);
 	            }
 	            else if (map[i][j] == 0 || map[i][j] == 2) {
-	            	foodXPos = j*wallWidth + leftOffset;
-	            	foodYPos = i*wallHeight + topOffset;
-	            	Rectangle food = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);//Creates food
-	            	food.setFill(Color.BLUE);
-	            	gameplay.getChildren().add(food);
+	            	gameplay.getChildren().add(Environment.foodArray[i][j]);
 	            }
 	        }
 		}
-		//make walls
-//		int wallXPos = 0;
-//		int wallYPos = 0;
-//		for(int i=0; i<map.length; i++) {
-//			for(int j = 0; j<map[i].length; j++) {
-//				wallXPos = j*wallWidth + leftOffset;
-//				wallYPos = j*wallWidth + topOffset;
-//				Rectangle wallTemp = new Rectangle(wallXPos, wallYPos, mapScale, mapScale);
-//				wall[i][j] = wallTemp;
-//			}
-//		}
-		//make food
-//		int foodXPos = 0;
-//		int foodYPos = 0;
-//		for(int i=0; i<map.length; i++) {
-//			for(int j=0; j<map[i].length; j++) {
-//				foodXPos = j*wallWidth + leftOffset;
-//            	foodYPos = i*wallHeight + topOffset;
-//            	Rectangle foodTemp = new Rectangle(foodXPos+mapScale/4, foodYPos+mapScale/4, mapScale/2, mapScale/2);
-//            	foodTemp.setFill(Color.BLUE);
-//            	food[i][j] = foodTemp;
-//			}
-//		}
+		
 		
 		//window dynamics: fps = 60
 		new AnimationTimer() {
@@ -409,7 +375,7 @@ public class Main extends Application {
 						//remove the countdown text which should be displaying "GO!"
 						gameplay.getChildren().remove(gameTime.getCountdownText());
 					}
-					//if countdown is finished (should have finished after 5 seconds), allow movement. Movement stops after 2mins.
+					//if countdown is finished (should have finished after 5 seconds, allow movement. Movement stops after 2mins.
 					if ((gameTime.getSecCount() > 4) && (gameTime.getSecCount() < 125)) {
 						//update timer
 						if (gameTime.getTrans()) {
@@ -425,30 +391,28 @@ public class Main extends Application {
 						if ((map[pacman.getYTile()][pacman.getXTile()] == 2 || map[pacman.getYTile()][pacman.getXTile()] == 6) && pacman.checkExact(mapScale)) {
 							pacman.updateDirection(map);
 						}
+//						gameplay.getChildren().remove(Environment.getScoreTxt());
+//						Environment.makeScoreText(); //updates getScoreTxt
+//						System.out.print(map[pacman.getYTile()][pacman.getXTile()]);
 						//Eating food, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 0) {
 							Player.incrementScore();
 							setMapValue(pacman.getYTile(),pacman.getXTile(),5);
-							int dfoodXPos = pacman.getXTile()*wallWidth + leftOffset;
-			            	int dfoodYPos = pacman.getYTile()*wallHeight + topOffset;
-			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
-			            	dfood.setFill(Color.WHITE);
-			            	gameplay.getChildren().add(dfood);
+			            	gameplay.getChildren().remove(Environment.foodArray[pacman.getYTile()][pacman.getXTile()]);
+//			            	gameplay.getChildren().add(Environment.getScoreTxt());
 						}
 						//Eating food at intersections, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
 							Player.incrementScore();
 							setMapValue(pacman.getYTile(),pacman.getXTile(),6);
-							int dfoodXPos = pacman.getXTile()*wallWidth + leftOffset;
-			            	int dfoodYPos = pacman.getYTile()*wallHeight + topOffset;
-			            	Rectangle dfood = new Rectangle(dfoodXPos+mapScale/4, dfoodYPos+mapScale/4, mapScale/2, mapScale/2);
-			            	dfood.setFill(Color.WHITE);
-			            	gameplay.getChildren().add(dfood);
+			            	gameplay.getChildren().remove(Environment.foodArray[pacman.getYTile()][pacman.getXTile()]);
+//			            	gameplay.getChildren().add(Environment.getScoreTxt());
 						}
+						//warping player
 						pacman.warp(map, mapScale);
 						pacman.move();
 						
-						//update multiplayer
+
 						if (Environment.getPlayerCount() > 1) {
 							//update player 2
 							multiOne.doEverything(map, mapScale);
@@ -471,6 +435,15 @@ public class Main extends Application {
 								clyde.warp(map, mapScale);
 							}
 						}
+//						gameplay.getChildren().remove(Environment.getScoreTxt());
+
+						//printing map to check proper labelling of points
+//						for(int i=0; i<map.length; i++) {
+//							System.out.println();
+//					        for(int j=0; j<map[i].length; j++) {
+//					        	System.out.print(map[i][j]);
+//					        }
+// 						}
 					}
 					
 					//update visuals
