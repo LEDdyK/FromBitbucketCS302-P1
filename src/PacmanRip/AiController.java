@@ -29,7 +29,7 @@ public class AiController {
 		enemy.move();
 	}
 	public static boolean collisionCheck(Enemy enemy, Player player) {
-		if (player.getXPos() < (enemy.getXPos()+enemy.getVelMag()) && player.getXPos() > (enemy.getXPos()-enemy.getVelMag()) && player.getYPos() < (enemy.getYPos()+enemy.getVelMag()) && player.getYPos() > (enemy.getYPos()-enemy.getVelMag())) {
+		if (player.getXPos() <= (enemy.getXPos()+enemy.getVelMag()) && player.getXPos() >= (enemy.getXPos()-enemy.getVelMag()) && player.getYPos() <= (enemy.getYPos()+enemy.getVelMag()) && player.getYPos() >= (enemy.getYPos()-enemy.getVelMag())) {
 			return true;
 		}
 		return false;
