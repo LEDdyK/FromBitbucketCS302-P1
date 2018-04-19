@@ -34,6 +34,10 @@ public class Environment {
 	private static boolean escToggle;
 	//Score
 	private static Text scoreTxt;
+	//Score
+	private static Text livesTxt;
+	//Death Text
+	private static Text DeathText;
 	//Times up Rectangle
 	private static Rectangle tURect;
 	//Times up Text
@@ -88,6 +92,12 @@ public class Environment {
 	public static Text getScoreTxt() {
 		return scoreTxt;
 	}
+	public static Text getLivesTxt() {
+		return livesTxt;
+	}
+	public static Text getDeathTxt() {
+		return DeathText;
+	}
 	public static int getPlayerCount() {
 		return playerCount;
 	}
@@ -114,6 +124,22 @@ public class Environment {
 	//Score Display
 	public static void makeScoreText() {
 		scoreTxt = new Text(Environment.getScreenWidth()/4, 50, "Score = " + Integer.toString(Player.getScore()));
+	}
+	//lives Display
+	public static void makeLivesText() {
+		livesTxt = new Text(Environment.getScreenWidth()-350, 50, "Remaining Lives = " + Integer.toString(Player.getLives()));
+	}
+	
+	//Death Screen
+	public static void makeDeathText() {
+		DeathText = new Text("You got Caught!");
+		DeathText.setFont(Font.font("Verdana", 60));
+		DeathText.setFill(Color.RED);
+		DeathText.setStroke(Color.GREEN);
+		DeathText.setStrokeWidth(3);
+		DeathText.setX(Environment.getScreenWidth()/2);
+		DeathText.setY(Environment.getScreenHeight()/2);
+		
 	}
 	
 	//Pause Screen
