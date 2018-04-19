@@ -18,3 +18,4 @@
 18. Choose an export destination and a name
 19. Select Extract required libraries into generated JAR
 20. Finish 
+END
