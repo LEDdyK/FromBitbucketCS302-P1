@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.net.URL;
+import javafx.scene.media.AudioClip;
 
 public class Main extends Application {
 	
@@ -87,11 +89,14 @@ public class Main extends Application {
 		gameplay.getChildren().add(gameCanvas);
 		GraphicsContext gameGraphics = gameCanvas.getGraphicsContext2D();
 		screens[5] = new Scene(gameplay, Environment.getScreenWidth(), Environment.getScreenHeight());
+		
 		//pause and escape buttons
 		Environment.makePRect();
 		Environment.makeERect();
 		Environment.makeScoreText();
 		Environment.makeTURect();
+		Environment.makeLivesText();
+		Environment.makeDeathText();
 		
 		//default start screen: welcome screen
 		Environment.setDefault();
@@ -131,6 +136,16 @@ public class Main extends Application {
 		Image circleC = new Image("circle.png");
 		//set enemy AI mode
 		clyde.setMode(1);
+		
+		//make Sounds
+		//Eating Sound
+		URL nomURL = getClass().getResource("nom.wav");
+		AudioClip nom = new AudioClip(nomURL.toString());
+		nom.setRate(1.9);
+		//Countdown Sound
+		URL cntdwnSoundURL = getClass().getResource("321go.wav");
+		AudioClip cntdwnSound = new AudioClip(cntdwnSoundURL.toString());
+		cntdwnSound.setRate(0.75);
 		
 		//make map objects
 		Environment.initFoodArray(map.length, map[0].length);
@@ -400,6 +415,9 @@ public class Main extends Application {
 				if (Environment.getState() == 5) {
 					//frame counter
 					gameTime.countFrames(60);
+					if (gameTime.getTrans() && (gameTime.getSecCount() == 1)) {
+							cntdwnSound.play();
+						}
 					//countdown: Ready? -> 3 -> 2 -> 1 -> GO!
 					if (gameTime.getTrans() && (gameTime.getSecCount() < 5 || (pacman.justDied() && gameTime.getCountdownVal() > -1))) {
 						//update countdown by removing countdown text, updating value, an re-adding text
@@ -431,12 +449,14 @@ public class Main extends Application {
 						}
 						//Eating food, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 0) {
+							nom.play();
 							Player.incrementScore();
 							setMapValue(pacman.getYTile(),pacman.getXTile(),5);
 			            	gameplay.getChildren().remove(Environment.foodArray[pacman.getYTile()][pacman.getXTile()]);
 						}
 						//Eating food at intersections, incrementing score
 						if (map[pacman.getYTile()][pacman.getXTile()] == 2) {
+							nom.play();
 							Player.incrementScore();
 							setMapValue(pacman.getYTile(),pacman.getXTile(),6);
 			            	gameplay.getChildren().remove(Environment.foodArray[pacman.getYTile()][pacman.getXTile()]);
@@ -480,16 +500,27 @@ public class Main extends Application {
 							}
 						}
 						if (AiController.collisionCheck(blinky, pacman) || AiController.collisionCheck(pinky, pacman)) {
+							
+							gameplay.getChildren().add(Environment.getDeathTxt());
 							gameTime.resetCountdown();
 							Player.decrementLife();
 							pacman.resetAll(false, mapScale);
 							pacman.setDead();
+							gameplay.getChildren().remove(Environment.getDeathTxt());
 						}
 					}
 					//Score display
 					gameplay.getChildren().remove(Environment.getScoreTxt());
 					Environment.makeScoreText();
 					gameplay.getChildren().add(Environment.getScoreTxt());
+					
+					//Score display
+					gameplay.getChildren().remove(Environment.getLivesTxt());
+					Environment.makeLivesText();
+					gameplay.getChildren().add(Environment.getLivesTxt());
+					
+					
+					
 					
 					//update visuals
 					gameGraphics.clearRect(0, 0, 1024, 768);
